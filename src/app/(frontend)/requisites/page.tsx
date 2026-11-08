@@ -5,34 +5,34 @@ export const metadata = { title: 'Реквизиты' }
 export default async function RequisitesPage() {
   const settings = await getSiteSettings()
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-3xl font-semibold">Реквизиты</h1>
-      <dl className="mt-6 space-y-3 text-stone-700">
-        <div>
-          <dt className="text-sm text-stone-500">Название</dt>
-          <dd>{settings.companyName}</dd>
+    <main className="site-shell max-w-3xl py-10 sm:py-14">
+      <h1 className="page-title">Реквизиты</h1>
+      <dl className="mt-8 divide-y divide-line border-y border-line">
+        <div className="grid gap-1 py-4 sm:grid-cols-[10rem_1fr]">
+          <dt className="text-sm text-ink-soft">Название</dt>
+          <dd className="font-semibold">{settings.companyName}</dd>
         </div>
         {settings.inn && (
-          <div>
-            <dt className="text-sm text-stone-500">ИНН</dt>
-            <dd>{settings.inn}</dd>
+          <div className="grid gap-1 py-4 sm:grid-cols-[10rem_1fr]">
+            <dt className="text-sm text-ink-soft">ИНН</dt>
+            <dd className="font-mono text-sm">{settings.inn}</dd>
           </div>
         )}
         {settings.ogrn && (
-          <div>
-            <dt className="text-sm text-stone-500">ОГРН</dt>
-            <dd>{settings.ogrn}</dd>
+          <div className="grid gap-1 py-4 sm:grid-cols-[10rem_1fr]">
+            <dt className="text-sm text-ink-soft">ОГРН</dt>
+            <dd className="font-mono text-sm">{settings.ogrn}</dd>
           </div>
         )}
         {settings.kpp && (
-          <div>
-            <dt className="text-sm text-stone-500">КПП</dt>
-            <dd>{settings.kpp}</dd>
+          <div className="grid gap-1 py-4 sm:grid-cols-[10rem_1fr]">
+            <dt className="text-sm text-ink-soft">КПП</dt>
+            <dd className="font-mono text-sm">{settings.kpp}</dd>
           </div>
         )}
         {settings.legalAddress && (
-          <div>
-            <dt className="text-sm text-stone-500">Юридический адрес</dt>
+          <div className="grid gap-1 py-4 sm:grid-cols-[10rem_1fr]">
+            <dt className="text-sm text-ink-soft">Юридический адрес</dt>
             <dd>{settings.legalAddress}</dd>
           </div>
         )}

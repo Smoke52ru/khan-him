@@ -9,28 +9,42 @@ type Props = {
 
 export function SiteFooter({ settings }: Props) {
   return (
-    <footer className="mt-auto border-t border-stone-200 bg-stone-100">
-      <div className="mx-auto grid max-w-6xl gap-6 px-4 py-10 md:grid-cols-3">
+    <footer className="mt-auto border-t border-line bg-panel">
+      <div className="site-shell grid gap-8 py-12 md:grid-cols-[1.2fr_1fr_1fr]">
         <div>
-          <p className="font-semibold text-teal-900">{settings.companyName}</p>
-          {settings.phone && <p className="mt-2 text-sm">{settings.phone}</p>}
-          {settings.email && <p className="text-sm">{settings.email}</p>}
-          {settings.address && <p className="mt-2 text-sm text-stone-600">{settings.address}</p>}
+          <p className="brand-mark text-xl text-ink">{settings.companyName}</p>
+          {settings.phone && <p className="mt-3 text-sm text-ink">{settings.phone}</p>}
+          {settings.email && (
+            <p className="text-sm">
+              <a href={`mailto:${settings.email}`} className="text-signal-ink">
+                {settings.email}
+              </a>
+            </p>
+          )}
+          {settings.address && <p className="mt-3 max-w-sm text-sm text-ink-soft">{settings.address}</p>}
         </div>
-        <div className="text-sm text-stone-700">
+
+        <div className="font-mono text-sm leading-relaxed text-ink-soft">
           {settings.inn && <p>ИНН {settings.inn}</p>}
           {settings.ogrn && <p>ОГРН {settings.ogrn}</p>}
           {settings.kpp && <p>КПП {settings.kpp}</p>}
-          {settings.legalAddress && <p className="mt-2">{settings.legalAddress}</p>}
+          {settings.legalAddress && <p className="mt-3 font-sans">{settings.legalAddress}</p>}
         </div>
-        <div className="flex flex-col gap-2 text-sm">
-          <Link href="/privacy">Политика конфиденциальности</Link>
-          <Link href="/pd-consent">Согласие на обработку ПДн</Link>
-          <Link href="/catalog">Каталог</Link>
+
+        <div className="flex flex-col gap-2 text-sm text-ink-soft">
+          <Link href="/catalog" className="hover:text-ink">
+            Каталог
+          </Link>
+          <Link href="/privacy" className="hover:text-ink">
+            Политика конфиденциальности
+          </Link>
+          <Link href="/pd-consent" className="hover:text-ink">
+            Согласие на обработку ПДн
+          </Link>
         </div>
       </div>
-      <div className="border-t border-stone-200 px-4 py-4">
-        <div className="mx-auto max-w-6xl">
+      <div className="border-t border-line">
+        <div className="site-shell py-4">
           <OfferDisclaimer />
         </div>
       </div>

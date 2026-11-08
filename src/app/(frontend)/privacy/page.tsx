@@ -7,12 +7,14 @@ export default async function PrivacyPage() {
   const payload = await getPayloadClient()
   const page = await payload.findGlobal({ slug: 'privacy-policy', overrideAccess: true })
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-3xl font-semibold">Политика конфиденциальности</h1>
+    <main className="site-shell max-w-3xl py-10 sm:py-14">
+      <h1 className="page-title text-[clamp(1.85rem,3.5vw,2.5rem)]">
+        Политика конфиденциальности
+      </h1>
       {page.isDraft && (
-        <p className="mt-3 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-900">Черновик</p>
+        <p className="mt-4 border border-warn bg-warn-soft px-3 py-2 text-sm text-warn">Черновик</p>
       )}
-      <div className="mt-6">
+      <div className="mt-8">
         <RichText data={page.body} />
       </div>
     </main>

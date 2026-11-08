@@ -57,18 +57,19 @@ export function RequestListClient({ phoneFallback }: { phoneFallback?: string })
 
   if (submitted) {
     return (
-      <div className="rounded-md bg-teal-50 p-4 text-teal-950">
-        <p className="font-medium">Заявка принята. Менеджер свяжется с вами.</p>
+      <div className="border border-stock bg-signal-soft/40 p-5">
+        <p className="font-semibold text-stock">Заявка принята. Менеджер свяжется с вами.</p>
       </div>
     )
   }
 
   if (items.length === 0) {
     return (
-      <div className="rounded-md bg-stone-100 p-4 text-stone-700">
-        Список пуст. Добавьте товары из каталога.
+      <div className="border border-line bg-panel p-5 text-ink">
+        <p className="font-medium">Список пуст.</p>
+        <p className="mt-2 text-sm text-ink-soft">Добавьте товары из каталога.</p>
         {removedNames.length > 0 && (
-          <p className="mt-2 text-sm">
+          <p className="mt-3 text-sm text-warn">
             Некоторые позиции больше недоступны и были удалены: {removedNames.join(', ')}.
           </p>
         )}
@@ -79,7 +80,7 @@ export function RequestListClient({ phoneFallback }: { phoneFallback?: string })
   return (
     <div className="space-y-8">
       {removedNames.length > 0 && (
-        <p className="rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-900">
+        <p className="border border-warn bg-warn-soft px-3 py-2 text-sm text-warn">
           Товар больше недоступен и удалён из списка: {removedNames.join(', ')}.
         </p>
       )}
@@ -115,24 +116,24 @@ function RequestListRow({
   product?: ProductInfo
 }) {
   return (
-    <li className="rounded-md border border-stone-200 p-4">
+    <li className="border border-line bg-white p-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="font-medium">{product?.name || 'Загрузка…'}</p>
-          {product?.sku && <p className="text-sm text-stone-500">{product.sku}</p>}
+          <p className="font-semibold">{product?.name || 'Загрузка…'}</p>
+          {product?.sku && <p className="mt-1 font-mono text-sm text-ink-soft">{product.sku}</p>}
         </div>
         <button
           type="button"
-          className="text-sm text-red-700 underline"
+          className="text-sm font-medium text-danger underline"
           onClick={() => removeFromRequestList(item.productId)}
         >
           Удалить
         </button>
       </div>
-      <label className="mt-3 block text-sm">
+      <label className="mt-4 block text-sm font-medium">
         Объём и фасовка
         <input
-          className="mt-1 w-full rounded-md border border-stone-300 px-3 py-2"
+          className="field mt-1.5"
           value={item.quantity}
           onChange={(e) => updateRequestQuantity(item.productId, e.target.value)}
           placeholder="например, 2 бочки по 200 кг"

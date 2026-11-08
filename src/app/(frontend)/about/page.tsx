@@ -8,12 +8,12 @@ export default async function AboutPage() {
   const page = await payload.findGlobal({ slug: 'about-page', overrideAccess: true })
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-3xl font-semibold">О компании</h1>
+    <main className="site-shell max-w-3xl py-10 sm:py-14">
+      <h1 className="page-title">О компании</h1>
       {page.isDraft && (
-        <p className="mt-3 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-900">Черновик</p>
+        <p className="mt-4 border border-warn bg-warn-soft px-3 py-2 text-sm text-warn">Черновик</p>
       )}
-      <div className="mt-6">
+      <div className="mt-8">
         <RichText data={page.body} />
       </div>
     </main>

@@ -10,33 +10,52 @@ export default async function HomePage() {
     findPublishedProducts({ page: 1 }),
   ])
 
+  const brand = settings.companyName || 'Хан-Хим'
+
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10">
-      <section className="max-w-3xl">
-        <h1 className="text-4xl font-semibold tracking-tight text-teal-950">
-          {settings.companyName || 'Хан-Хим'}
-        </h1>
-        <p className="mt-4 text-lg text-stone-600">
-          Оптовые поставки химического сырья. Каталог без цен — оставьте заявку, менеджер свяжется с
-          вами.
-        </p>
-        <Link
-          href="/catalog"
-          className="mt-6 inline-flex rounded-md bg-teal-800 px-4 py-2 text-sm font-medium text-white"
-        >
-          Перейти в каталог
-        </Link>
+    <main>
+      <section className="relative isolate min-h-[min(92vh,52rem)] overflow-hidden bg-ink text-white">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/hero-yard.svg')" }}
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(105deg, var(--hero-veil) 18%, transparent 72%)' }}
+          aria-hidden
+        />
+
+        <div className="site-shell relative flex min-h-[min(92vh,52rem)] flex-col justify-end pb-14 pt-24 sm:pb-20">
+          <div className="max-w-3xl">
+            <h1 className="brand-mark hero-enter text-[clamp(3.2rem,10vw,6.5rem)] text-white">
+              {brand}
+            </h1>
+            <p className="hero-enter-delay mt-5 max-w-xl text-lg text-white/85 sm:text-xl">
+              Оптовые поставки химического сырья. Каталог без цен — оставьте заявку, менеджер
+              свяжется с вами.
+            </p>
+            <div className="hero-enter-delay mt-8 flex flex-wrap gap-3">
+              <Link href="/catalog" className="btn btn-hero-solid no-underline">
+                Открыть каталог
+              </Link>
+              <Link href="/request" className="btn btn-hero-ghost no-underline">
+                Оставить заявку
+              </Link>
+            </div>
+          </div>
+        </div>
       </section>
 
       {categories.length > 0 && (
-        <section className="mt-12">
-          <h2 className="text-2xl font-semibold text-stone-900">Категории</h2>
-          <ul className="mt-4 flex flex-wrap gap-3">
+        <section className="site-shell py-14">
+          <h2 className="section-title">Категории</h2>
+          <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-3 border-t border-line pt-6">
             {categories.map((category) => (
               <li key={category.id}>
                 <Link
                   href={`/catalog?category=${category.slug}`}
-                  className="rounded-md border border-stone-300 px-3 py-2 text-sm hover:border-teal-800"
+                  className="text-[1.05rem] text-signal-ink no-underline hover:underline"
                 >
                   {category.name}
                 </Link>
@@ -46,36 +65,52 @@ export default async function HomePage() {
         </section>
       )}
 
-      <section className="mt-12">
-        <h2 className="text-2xl font-semibold text-stone-900">Товары</h2>
-        <div className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {products.docs.slice(0, 8).map((product) => (
-            <ProductCard key={product.id} product={product} />
+      <section className="border-y border-line bg-panel/60">
+        <div className="site-shell py-14">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <h2 className="section-title">Товары</h2>
+            <Link href="/catalog" className="text-sm font-semibold text-signal-ink">
+              Весь каталог
+            </Link>
+          </div>
+          <div className="mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+            {products.docs.slice(0, 8).map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="site-shell py-16">
+        <h2 className="section-title">Как работаем</h2>
+        <div className="mt-8 grid gap-10 md:grid-cols-3">
+          {[
+            ['От производителя', 'Прямые контракты и стабильные поставки сырья.'],
+            ['Подбор объёма', 'Фасовку и объём обсуждаем в заявке под ваш процесс.'],
+            ['Документы', 'Паспорта качества и SDS скачиваются из карточки товара.'],
+          ].map(([title, text]) => (
+            <div key={title} className="border-t border-line pt-5">
+              <h3 className="font-display text-lg font-semibold tracking-tight">{title}</h3>
+              <p className="mt-3 text-ink-soft">{text}</p>
+            </div>
           ))}
         </div>
       </section>
 
-      <section className="mt-16 grid gap-6 md:grid-cols-3">
-        {[
-          ['От производителя', 'Прямые контракты и стабильные поставки.'],
-          ['Подбор объёма', 'Фасовка и объём обсуждаются в заявке.'],
-          ['Документы', 'Паспорта и SDS доступны в карточке товара.'],
-        ].map(([title, text]) => (
-          <div key={title}>
-            <h3 className="font-semibold text-stone-900">{title}</h3>
-            <p className="mt-2 text-sm text-stone-600">{text}</p>
+      <section className="border-t border-line bg-signal-ink text-white">
+        <div className="site-shell flex flex-col gap-5 py-14 sm:flex-row sm:items-end sm:justify-between">
+          <div className="max-w-xl">
+            <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
+              Быстрая заявка
+            </h2>
+            <p className="mt-3 text-white/80">
+              Напишите, что ищете и в каких объёмах — менеджер ответит.
+            </p>
           </div>
-        ))}
-      </section>
-
-      <section className="mt-16 rounded-md bg-stone-100 p-6">
-        <h2 className="text-xl font-semibold">Быстрая заявка</h2>
-        <p className="mt-2 text-stone-600">
-          Напишите, что ищете и в каких объёмах — менеджер ответит.
-        </p>
-        <Link href="/request" className="mt-4 inline-flex text-teal-800 underline">
-          Оставить заявку
-        </Link>
+          <Link href="/request" className="btn btn-hero-solid no-underline">
+            Оставить заявку
+          </Link>
+        </div>
       </section>
     </main>
   )

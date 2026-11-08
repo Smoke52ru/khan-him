@@ -18,35 +18,54 @@ function coverUrl(product: Product): string | null {
 
 export function ProductCard({ product }: Props) {
   const image = coverUrl(product)
-  const availability = product.availability === 'stock' ? 'На складе' : 'Под заказ'
+  const onStock = product.availability === 'stock'
 
   return (
     <article className="flex flex-col gap-3">
-      <Link href={`/catalog/${product.slug}`} className="block overflow-hidden bg-stone-200">
+      <Link
+        href={`/catalog/${product.slug}`}
+        className="block overflow-hidden border border-line bg-panel no-underline"
+      >
         {image ? (
           <Image
             src={image}
             alt={product.name}
             width={600}
             height={450}
-            className="aspect-[4/3] w-full object-cover"
+            className="aspect-[4/3] w-full object-cover transition-transform duration-300 hover:scale-[1.02]"
           />
         ) : (
-          <div className="flex aspect-[4/3] items-center justify-center text-sm text-stone-500">
+          <div className="flex aspect-[4/3] items-center justify-center bg-panel text-sm text-ink-soft">
             Нет фото
           </div>
         )}
       </Link>
+
       <div className="flex flex-1 flex-col gap-2">
-        <Link href={`/catalog/${product.slug}`} className="font-medium text-stone-900 hover:underline">
+        <Link
+          href={`/catalog/${product.slug}`}
+          className="font-semibold leading-snug text-ink no-underline hover:text-signal-ink"
+        >
           {product.name}
         </Link>
+
+        {product.formula && <p className="formula">{product.formula}</p>}
+
         {product.altNames && product.altNames.length > 0 && (
-          <p className="text-sm text-stone-500">{product.altNames.join(', ')}</p>
+          <p className="text-sm text-ink-soft">{product.altNames.join(', ')}</p>
         )}
-        {product.packaging && <p className="text-sm text-stone-600">Фасовка: {product.packaging}</p>}
-        <p className="text-sm text-teal-800">{availability}</p>
-        <AddToRequestButton productId={String(product.id)} />
+
+        {product.packaging && (
+          <p className="text-sm text-ink-soft">Фасовка: {product.packaging}</p>
+        )}
+
+        <p className={`text-sm font-medium ${onStock ? 'text-stock' : 'text-ink-soft'}`}>
+          {onStock ? 'На складе' : 'Под заказ'}
+        </p>
+
+        <div className="mt-auto pt-1">
+          <AddToRequestButton productId={String(product.id)} />
+        </div>
       </div>
     </article>
   )

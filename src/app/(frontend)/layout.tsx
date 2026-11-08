@@ -1,3 +1,4 @@
+import { JetBrains_Mono, Manrope, Unbounded } from 'next/font/google'
 import React from 'react'
 
 import { SiteFooter } from '@/components/SiteFooter'
@@ -7,6 +8,24 @@ import { getSiteSettings } from '@/lib/catalog'
 import './styles.css'
 
 export const dynamic = 'force-dynamic'
+
+const unbounded = Unbounded({
+  subsets: ['cyrillic', 'latin'],
+  display: 'swap',
+  variable: '--font-unbounded',
+})
+
+const manrope = Manrope({
+  subsets: ['cyrillic', 'latin'],
+  display: 'swap',
+  variable: '--font-manrope',
+})
+
+const jetbrains = JetBrains_Mono({
+  subsets: ['latin', 'cyrillic'],
+  display: 'swap',
+  variable: '--font-jetbrains',
+})
 
 export const metadata = {
   description: 'Оптовый каталог химической продукции',
@@ -20,8 +39,11 @@ export default async function FrontendLayout({ children }: { children: React.Rea
   const settings = await getSiteSettings()
 
   return (
-    <html lang="ru">
-      <body className="flex min-h-screen flex-col">
+    <html
+      lang="ru"
+      className={`${unbounded.variable} ${manrope.variable} ${jetbrains.variable}`}
+    >
+      <body className="flex min-h-screen flex-col font-sans antialiased">
         <SiteHeader settings={settings} />
         <div className="flex-1">{children}</div>
         <SiteFooter settings={settings} />

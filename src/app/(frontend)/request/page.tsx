@@ -35,12 +35,12 @@ export default async function RequestPage({ searchParams }: { searchParams: Sear
   }
 
   return (
-    <main className="mx-auto max-w-xl px-4 py-10">
-      <h1 className="text-3xl font-semibold">{title}</h1>
-      <p className="mt-3 text-stone-600">
+    <main className="site-shell max-w-xl py-10 sm:py-14">
+      <h1 className="page-title text-[clamp(1.85rem,3.5vw,2.5rem)]">{title}</h1>
+      <p className="mt-4 text-ink-soft">
         Это предварительная заявка. Укажите адрес доставки, объём и фасовку в комментарии.
       </p>
-      <div className="mt-6">
+      <div className="mt-8">
         <RequestForm source={source} items={items} phoneFallback={settings.phone || undefined} />
       </div>
     </main>
