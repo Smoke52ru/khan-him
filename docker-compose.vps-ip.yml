@@ -1,0 +1,61 @@
+# Тестовый стек на VPS по IP, без домена и без HTTPS.
+# Запуск: docker compose -f docker-compose.vps-ip.yml up -d --build
+#
+# В .env обязательно:
+#   NEXT_PUBLIC_SERVER_URL=http://ВАШ_IP
+# DOMAIN не нужен.
+#
+# Сайт: http://ВАШ_IP/
+# Когда появится домен — переходите на docker-compose.vps.yml + Caddyfile.
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: khan
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-khan}
+      POSTGRES_DB: khan_him
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U khan -d khan_him']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    image: khan-him:latest
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://khan:${POSTGRES_PASSWORD:-khan}@postgres:5432/khan_him
+      NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL:?Set NEXT_PUBLIC_SERVER_URL=http://YOUR_IP in .env}
+    volumes:
+      - uploads:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+    expose:
+      - '3000'
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    volumes:
+      - ./Caddyfile.ip:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      app:
+        condition: service_started
+
+volumes:
+  db-data:
+  uploads:
+  caddy-data:
+  caddy-config:

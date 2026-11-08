@@ -47,13 +47,30 @@
 
 Требования: Node.js 22+ или 24+, pnpm 9+, Docker с Docker Compose.
 
+Два Compose-файла без профилей:
+
+| Файл | Сервисы | Когда |
+|---|---|---|
+| `docker-compose.yml` | app + Postgres + Mailpit | локально / демо на своей машине |
+| `docker-compose.vps.yml` | app + Postgres + Caddy | VPS с доменом и HTTPS |
+
+### Полный локальный стек (как на демо)
+
 ```bash
 cp .env.example .env
 # задайте PAYLOAD_SECRET (≥ 32 символов) и при желании ADMIN_*
 
-docker compose --profile dev up -d   # Postgres :5432 и Mailpit :1025/:8025
+docker compose up -d --build
+docker compose exec app pnpm seed
+# сайт: http://127.0.0.1:3000  Mailpit: http://127.0.0.1:8025
+```
+
+### Разработка с hot reload (`pnpm dev`)
+
+```bash
+docker compose up -d postgres mailpit   # только БД и почта
 pnpm install
-pnpm dev                             # http://localhost:3000  и  /admin
+pnpm dev                                # http://localhost:3000  и  /admin
 ```
 
 Полезные команды:
@@ -75,35 +92,32 @@ SMTP на `127.0.0.1:1025`, веб-интерфейс на [http://127.0.0.1:802
 
 ## Развёртывание на VPS
 
-Минимальные требования: 2 ГБ ОЗУ, Docker и Docker Compose, домен (для профиля
-`proxy`).
+Минимальные требования: 2 ГБ ОЗУ, Docker и Docker Compose.
+Домен нужен только для HTTPS; для первого теста хватает IP
+(`docker-compose.vps-ip.yml`).
 
-1. Соберите образ локально: `docker build -t khan-him:latest .`
-2. Загрузите образ на сервер (реестр или `docker save | ssh ... docker load`).
-3. Скопируйте `docker-compose.yml`, `Caddyfile` и `.env` (с боевыми секретами и
-   SMTP заказчика). В `DATABASE_URL` хост — `postgres`; задайте `DOMAIN`.
-4. Запуск: `docker compose --profile app --profile proxy up -d`
-   (миграции выполняются при старте контейнера `app`).
-5. В контейнере приложения: `docker compose exec app pnpm seed`
-6. Бэкап: `docker compose exec postgres pg_dump -U khan khan_him > backup.sql`
-   и архив тома `uploads`.
-7. Откат: предыдущий тег образа + восстановление дампа и `uploads`.
+**Подробная инструкция (Selectel, Caddy, SMTP/Nodemailer):** [`DEPLOY.md`](./DEPLOY.md).
 
-Профили Compose:
+Кратко:
 
-| Профиль | Сервисы | Когда |
+| Цель | Файл | URL |
 |---|---|---|
-| `dev` | Postgres + Mailpit | локальная разработка с `pnpm dev` |
-| `app` | приложение (standalone) | демо/прод-стек; с `dev` — локально с Mailpit |
-| `proxy` | Caddy (HTTPS по `DOMAIN`) | VPS с доменом; вместе с `app` |
+| Тест по IP, без домена | `docker-compose.vps-ip.yml` + `Caddyfile.ip` | `http://IP/` |
+| Домен + HTTPS | `docker-compose.vps.yml` + `Caddyfile` | `https://домен/` |
 
-Локальная проверка полного стека без `pnpm dev`:
+1. Соберите образ локально или на сервере (`--build`).
+2. Скопируйте нужный compose, соответствующий Caddyfile и `.env`.
+3. В `.env`: секреты, SMTP; для IP —
+   `NEXT_PUBLIC_SERVER_URL=http://ВАШ_IP`; для домена — `DOMAIN` и
+   `NEXT_PUBLIC_SERVER_URL=https://домен`.
+   `DATABASE_URL` в контейнере перезаписывается на хост `postgres`.
+4. Запуск, например:
+   `docker compose -f docker-compose.vps-ip.yml up -d --build`
+5. Сид: `docker compose -f … exec app pnpm seed`
+6. Бэкап: `pg_dump` из сервиса `postgres` + том `uploads`.
 
-```bash
-docker compose --profile app --profile dev up -d --build
-docker compose exec app pnpm seed
-# сайт: http://127.0.0.1:3000  Mailpit: http://127.0.0.1:8025
-```
+Postgres и приложение снаружи не торчат — только Caddy (порт 80 или
+80+443).
 
 ### Чек-лист показа заказчику
 
@@ -122,9 +136,9 @@ docker compose exec app pnpm seed
 | Локальный запуск и показ экрана на созвоне | совсем бесплатно, без рисков | заказчик не может сам потыкать админку |
 
 **Решение:** прототип собирается в Docker Compose, который одинаково
-запускается локально и на VPS. Цель — пробный грант российского облака,
-запасной вариант — локальный запуск с показом экрана. Vercel не используем.
-Конкретный провайдер пока не выбран.
+запускается локально и на VPS. Тестовый деплой планируется на **Selectel**
+(см. [`DEPLOY.md`](./DEPLOY.md)). Запасной вариант — локальный запуск с
+показом экрана. Vercel не используем.
 
 ## Варианты прода
 
@@ -137,16 +151,20 @@ docker compose exec app pnpm seed
 
 ## Решения по инфраструктуре
 
-- Развёртывание: Docker Compose (`app` + при необходимости `proxy` с Caddy).
-- HTTPS на VPS: Caddy в профиле `proxy`, сертификат Let's Encrypt по `DOMAIN`.
+- Развёртывание: `docker-compose.yml` (локально),
+  `docker-compose.vps-ip.yml` (VPS по IP, HTTP),
+  `docker-compose.vps.yml` (VPS с доменом и HTTPS).
+- Тестовый деплой: Selectel VPS; пошагово — [`DEPLOY.md`](./DEPLOY.md).
+- HTTPS: Caddy + Let's Encrypt по `DOMAIN`; без домена — только HTTP на :80.
+- Почта: SMTP через `@payloadcms/email-nodemailer` (на VPS порт **587** /
+  STARTTLS; см. разбор в `DEPLOY.md`).
 - Файлы по умолчанию на диске (том `uploads`); S3 — опционально через
   переменные `S3_*` (см. `.env.example`).
 - Минимальный VPS: 2 ГБ ОЗУ.
 
 ## Открытые вопросы
 
-- Какое облако взять для демо по пробному гранту?
-- Какой провайдер для прода и какой тариф VPS (не меньше 2 ГБ ОЗУ)?
+- Какой тариф Selectel (или другого провайдера) для прода (не меньше 2 ГБ ОЗУ)?
 - Есть ли у заказчика домен и хостинг или регистрируем новые?
 - С какого ящика отправляются письма о заявках: почта заказчика на своём
   домене или отдельный ящик?

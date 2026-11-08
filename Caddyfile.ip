@@ -1,0 +1,5 @@
+# HTTP-only для доступа по IP (без домена и без Let's Encrypt).
+# Браузер: http://ВАШ_IP/
+:80 {
+	reverse_proxy app:3000
+}
