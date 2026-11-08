@@ -85,10 +85,7 @@ async function seed(): Promise<void> {
     await payload.updateGlobal({
       slug,
       data: {
-        isDraft: true,
-        body: paragraph(
-          'Черновик юридического или информационного текста. Замените содержимым от заказчика.',
-        ),
+        body: null,
       },
       overrideAccess: true,
     })

@@ -9,15 +9,6 @@ function contentPage(slug: string, label: string): GlobalConfig {
     },
     fields: [
       {
-        name: 'isDraft',
-        type: 'checkbox',
-        label: 'Черновик',
-        defaultValue: true,
-        admin: {
-          description: 'Пока включено, на сайте показывается пометка «Черновик».',
-        },
-      },
-      {
         name: 'body',
         type: 'richText',
         label: 'Текст',

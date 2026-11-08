@@ -686,10 +686,6 @@ export interface SiteSetting {
  */
 export interface AboutPage {
   id: number;
-  /**
-   * Пока включено, на сайте показывается пометка «Черновик».
-   */
-  isDraft?: boolean | null;
   body?: {
     root: {
       type: string;
@@ -714,10 +710,6 @@ export interface AboutPage {
  */
 export interface PrivacyPolicy {
   id: number;
-  /**
-   * Пока включено, на сайте показывается пометка «Черновик».
-   */
-  isDraft?: boolean | null;
   body?: {
     root: {
       type: string;
@@ -742,10 +734,6 @@ export interface PrivacyPolicy {
  */
 export interface PdConsent {
   id: number;
-  /**
-   * Пока включено, на сайте показывается пометка «Черновик».
-   */
-  isDraft?: boolean | null;
   body?: {
     root: {
       type: string;
@@ -792,7 +780,6 @@ export interface SiteSettingsSelect<T extends boolean = true> {
  * via the `definition` "about-page_select".
  */
 export interface AboutPageSelect<T extends boolean = true> {
-  isDraft?: T;
   body?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -803,7 +790,6 @@ export interface AboutPageSelect<T extends boolean = true> {
  * via the `definition` "privacy-policy_select".
  */
 export interface PrivacyPolicySelect<T extends boolean = true> {
-  isDraft?: T;
   body?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -814,7 +800,6 @@ export interface PrivacyPolicySelect<T extends boolean = true> {
  * via the `definition` "pd-consent_select".
  */
 export interface PdConsentSelect<T extends boolean = true> {
-  isDraft?: T;
   body?: T;
   updatedAt?: T;
   createdAt?: T;
