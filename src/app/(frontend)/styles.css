@@ -33,7 +33,7 @@
   --color-warn: var(--warn);
   --color-warn-soft: var(--warn-soft);
   --color-danger: var(--danger);
-  --font-display: var(--font-unbounded), 'Arial Narrow', sans-serif;
+  --font-display: var(--font-geologica), 'Arial Narrow', sans-serif;
   --font-sans: var(--font-manrope), 'Segoe UI', sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
@@ -82,8 +82,9 @@ body {
 .brand-mark {
   font-family: var(--font-display), 'Arial Narrow', sans-serif;
   font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 0.95;
+  font-stretch: 90%;
+  letter-spacing: -0.035em;
+  line-height: 0.92;
 }
 
 .formula {

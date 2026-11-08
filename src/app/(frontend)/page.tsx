@@ -28,7 +28,7 @@ export default async function HomePage() {
 
         <div className="site-shell relative flex min-h-[min(92vh,52rem)] flex-col justify-end pb-14 pt-24 sm:pb-20">
           <div className="max-w-3xl">
-            <h1 className="brand-mark hero-enter text-[clamp(3.2rem,10vw,6.5rem)] text-white">
+            <h1 className="brand-mark hero-enter text-[clamp(3.05rem,9.4vw,6.1rem)] text-white">
               {brand}
             </h1>
             <p className="hero-enter-delay mt-5 max-w-xl text-lg text-white/85 sm:text-xl">

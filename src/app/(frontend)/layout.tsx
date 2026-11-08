@@ -1,4 +1,4 @@
-import { JetBrains_Mono, Manrope, Unbounded } from 'next/font/google'
+import { Geologica, JetBrains_Mono, Manrope } from 'next/font/google'
 import React from 'react'
 
 import { SiteFooter } from '@/components/SiteFooter'
@@ -9,10 +9,10 @@ import './styles.css'
 
 export const dynamic = 'force-dynamic'
 
-const unbounded = Unbounded({
+const geologica = Geologica({
   subsets: ['cyrillic', 'latin'],
   display: 'swap',
-  variable: '--font-unbounded',
+  variable: '--font-geologica',
 })
 
 const manrope = Manrope({
@@ -41,7 +41,7 @@ export default async function FrontendLayout({ children }: { children: React.Rea
   return (
     <html
       lang="ru"
-      className={`${unbounded.variable} ${manrope.variable} ${jetbrains.variable}`}
+      className={`${geologica.variable} ${manrope.variable} ${jetbrains.variable}`}
     >
       <body className="flex min-h-screen flex-col font-sans antialiased">
         <SiteHeader settings={settings} />
