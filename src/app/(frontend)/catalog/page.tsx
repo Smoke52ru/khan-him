@@ -52,22 +52,28 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
   }
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="text-3xl font-semibold text-stone-900">Каталог товаров</h1>
-      <OfferDisclaimer className="mt-3" />
+    <main className="site-shell py-10 sm:py-14">
+      <h1 className="page-title">Каталог</h1>
+      <OfferDisclaimer className="mt-4 max-w-2xl" />
 
-      <form className="mt-6 flex flex-wrap gap-3" action="/catalog" method="get">
+      <form
+        className="mt-8 grid gap-3 border border-line bg-white p-4 sm:grid-cols-[1.4fr_1fr_1fr_auto]"
+        action="/catalog"
+        method="get"
+      >
         <input
           type="search"
           name="q"
           defaultValue={q || ''}
           placeholder="Название, формула, CAS, артикул"
-          className="min-w-[16rem] flex-1 rounded-md border border-stone-300 px-3 py-2 text-sm"
+          className="field"
+          aria-label="Поиск"
         />
         <select
           name="category"
           defaultValue={category || ''}
-          className="rounded-md border border-stone-300 px-3 py-2 text-sm"
+          className="field"
+          aria-label="Категория"
         >
           <option value="">Все категории</option>
           {categories.map((item) => (
@@ -79,26 +85,30 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
         <select
           name="availability"
           defaultValue={availability || ''}
-          className="rounded-md border border-stone-300 px-3 py-2 text-sm"
+          className="field"
+          aria-label="Наличие"
         >
           <option value="">Любое наличие</option>
           <option value="stock">На складе</option>
           <option value="order">Под заказ</option>
         </select>
-        <button type="submit" className="rounded-md bg-teal-800 px-4 py-2 text-sm text-white">
+        <button type="submit" className="btn btn-primary">
           Применить
         </button>
       </form>
 
       {products.docs.length === 0 ? (
-        <div className="mt-10 rounded-md bg-stone-100 p-6">
-          <p>Ничего не найдено.</p>
-          <Link href="/request" className="mt-3 inline-block text-teal-800 underline">
+        <div className="mt-10 border border-line bg-panel p-6">
+          <p className="font-medium">Ничего не найдено.</p>
+          <p className="mt-2 text-sm text-ink-soft">
+            Попробуйте другой запрос или оставьте быструю заявку — подберём позицию вручную.
+          </p>
+          <Link href="/request" className="btn btn-secondary mt-4">
             Оставить быструю заявку
           </Link>
         </div>
       ) : (
-        <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
           {products.docs.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -106,18 +116,18 @@ export default async function CatalogPage({ searchParams }: { searchParams: Sear
       )}
 
       {products.totalPages > 1 && (
-        <nav className="mt-10 flex items-center gap-4 text-sm">
+        <nav className="mt-12 flex flex-wrap items-center gap-4 border-t border-line pt-6 text-sm">
           {page > 1 && (
-            <Link href={buildHref({ page: String(page - 1) })} className="underline">
+            <Link href={buildHref({ page: String(page - 1) })} className="font-semibold text-signal-ink">
               Назад
             </Link>
           )}
-          <span>
+          <span className="text-ink-soft">
             Страница {products.page} из {products.totalPages} ({products.totalDocs} позиций, по{' '}
             {CATALOG_PAGE_SIZE})
           </span>
           {page < products.totalPages && (
-            <Link href={buildHref({ page: String(page + 1) })} className="underline">
+            <Link href={buildHref({ page: String(page + 1) })} className="font-semibold text-signal-ink">
               Вперёд
             </Link>
           )}

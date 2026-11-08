@@ -9,43 +9,54 @@ type Props = {
 
 export function SiteHeader({ settings }: Props) {
   const phoneHref = settings.phone ? `tel:${settings.phone.replace(/[^\d+]/g, '')}` : undefined
+  const brand = settings.companyName || 'Хан-Хим'
 
   return (
-    <header className="border-b border-stone-200 bg-white">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-4 px-4 py-4">
-        <Link href="/" className="text-xl font-semibold tracking-tight text-teal-900">
-          {settings.companyName || 'Хан-Хим'}
+    <header className="sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur-sm">
+      <div className="site-shell grid grid-cols-[auto_1fr] items-center gap-x-5 gap-y-3 py-3 xl:grid-cols-[auto_auto_minmax(12rem,18rem)_auto]">
+        <Link href="/" className="brand-mark shrink-0 text-[1.35rem] text-ink no-underline">
+          {brand}
         </Link>
-        <nav className="flex flex-wrap items-center gap-4 text-sm text-stone-700">
-          <Link href="/catalog">Каталог</Link>
-          <Link href="/about">О компании</Link>
-          <Link href="/contacts">Контакты</Link>
-          <Link href="/requisites">Реквизиты</Link>
+
+        <nav className="flex flex-wrap items-center justify-end gap-x-4 gap-y-1 text-[0.9375rem] text-ink-soft xl:justify-start">
+          <Link href="/catalog" className="hover:text-ink">
+            Каталог
+          </Link>
+          <Link href="/about" className="hover:text-ink">
+            О компании
+          </Link>
+          <Link href="/contacts" className="hover:text-ink">
+            Контакты
+          </Link>
+          <Link href="/requisites" className="hover:text-ink">
+            Реквизиты
+          </Link>
         </nav>
-        <form action="/catalog" method="get" className="ml-auto flex min-w-[12rem] flex-1 max-w-sm">
+
+        <form
+          action="/catalog"
+          method="get"
+          className="col-span-2 flex w-full xl:col-span-1 xl:max-w-none"
+        >
           <input
             type="search"
             name="q"
             placeholder="Поиск по каталогу"
-            className="w-full rounded-l-md border border-stone-300 px-3 py-2 text-sm"
+            className="field min-h-9 rounded-r-none border-r-0 py-1.5"
+            aria-label="Поиск по каталогу"
           />
-          <button
-            type="submit"
-            className="rounded-r-md bg-teal-800 px-3 py-2 text-sm font-medium text-white"
-          >
+          <button type="submit" className="btn btn-primary min-h-9 rounded-l-none px-3 text-sm">
             Найти
           </button>
         </form>
-        <div className="flex items-center gap-3 text-sm">
+
+        <div className="col-span-2 flex flex-wrap items-center justify-end gap-2.5 text-sm xl:col-span-1">
           {phoneHref && (
-            <a href={phoneHref} className="font-medium text-teal-900">
+            <a href={phoneHref} className="font-semibold text-signal-ink no-underline">
               {settings.phone}
             </a>
           )}
-          <Link
-            href="/request"
-            className="rounded-md border border-teal-800 px-3 py-2 font-medium text-teal-900"
-          >
+          <Link href="/request" className="btn btn-secondary min-h-9 px-3 text-sm">
             Быстрая заявка
           </Link>
           <RequestCounter />

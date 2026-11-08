@@ -9,10 +9,7 @@ export function RequestCounter() {
   const count = useSyncExternalStore(subscribeRequestList, getRequestCount, () => 0)
 
   return (
-    <Link
-      href="/request-list"
-      className="rounded-md bg-stone-900 px-3 py-2 text-sm font-medium text-white"
-    >
+    <Link href="/request-list" className="btn btn-dark min-h-10 px-3 text-sm no-underline">
       Запрос{count > 0 ? ` (${count})` : ''}
     </Link>
   )

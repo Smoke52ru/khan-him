@@ -25,10 +25,7 @@ export function AddToRequestButton({ productId, className = '' }: Props) {
       type="button"
       disabled={added}
       onClick={() => addToRequestList(productId)}
-      className={
-        className ||
-        'rounded-md bg-teal-800 px-3 py-2 text-sm font-medium text-white disabled:bg-stone-400'
-      }
+      className={className || 'btn btn-primary text-sm'}
     >
       {added ? 'Уже в запросе' : 'В запрос'}
     </button>

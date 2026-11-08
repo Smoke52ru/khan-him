@@ -19,7 +19,7 @@ export function RichText({ data }: { data: unknown }) {
   if (paragraphs.length === 0) return null
 
   return (
-    <div className="space-y-3 text-stone-700">
+    <div className="space-y-3 text-ink-soft">
       {paragraphs.map((node, index) => (
         <p key={index}>{renderChildren(node.children || [])}</p>
       ))}
