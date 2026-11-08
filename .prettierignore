@@ -1,0 +1,10 @@
+.next
+node_modules
+src/payload-types.ts
+src/payload-generated-schema.ts
+pnpm-lock.yaml
+playwright-report
+test-results
+coverage
+uploads
+media

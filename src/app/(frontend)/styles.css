@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+
+:root {
+  --font-mono: 'Roboto Mono', monospace;
+  color-scheme: light;
+}
+
+body {
+  @apply m-0 min-h-screen bg-stone-50 text-stone-900 antialiased;
+  font-family: system-ui, sans-serif;
+}
+
+a {
+  @apply text-inherit;
+}
+
+img {
+  @apply block h-auto max-w-full;
+}
