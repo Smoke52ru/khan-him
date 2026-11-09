@@ -108,8 +108,8 @@ SMTP на `127.0.0.1:1025`, веб-интерфейс на [http://127.0.0.1:802
 1. Соберите образ локально или на сервере (`--build`).
 2. Скопируйте нужный compose, соответствующий Caddyfile и `.env`.
 3. В `.env`: секреты, SMTP; для IP —
-   `NEXT_PUBLIC_SERVER_URL=http://ВАШ_IP`; для домена — `DOMAIN` и
-   `NEXT_PUBLIC_SERVER_URL=https://домен`.
+   `NEXT_PUBLIC_SERVER_URL=http://ВАШ_IP` (без `:3000`); для домена —
+   `DOMAIN` и `NEXT_PUBLIC_SERVER_URL=https://домен`.
    `DATABASE_URL` в контейнере перезаписывается на хост `postgres`.
 4. Запуск, например:
    `docker compose -f docker-compose.vps-ip.yml up -d --build`

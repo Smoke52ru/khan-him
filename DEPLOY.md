@@ -259,6 +259,11 @@ REQUESTS_FALLBACK_EMAIL=вы@example.com
   Без `DOMAIN` compose с HTTPS упадёт на старте.
 - `NEXT_PUBLIC_SERVER_URL` должен совпадать с тем, что люди вбивают в
   браузере (ссылки в письмах на админку строятся из него).
+  **Без** `:3000`: снаружи слушает Caddy на 80/443, не сам Node.
+  Неверно: `http://176.x.x.x:3000` — логин в `/admin` «проходит» и сразу
+  выкидывает обратно (CSRF/cookie). Верно: `http://176.x.x.x`.
+  После правки `.env`: `docker compose -f … up -d --force-recreate app`,
+  не `docker restart`.
 - `POSTGRES_PASSWORD` задаётся **до первого** `up`: пароль пишется в том
   Postgres при инициализации. Смена пароля в `.env` на уже живом томе
   сама по себе базу не перенастроит.
@@ -405,6 +410,7 @@ DOMAIN: ${DOMAIN:?Set DOMAIN in .env}
 | Симптом | Что проверить |
 |---|---|
 | По IP ничего не открывается | файрвол: порт 80; `logs caddy` / `logs app`; `NEXT_PUBLIC_SERVER_URL=http://IP` |
+| `/admin` логин не держит сессию | в `.env` убрать `:3000` из `NEXT_PUBLIC_SERVER_URL`; `up -d --force-recreate app`; проверить `exec app printenv NEXT_PUBLIC_SERVER_URL` |
 | В логах TLS / ACME ошибки (доменный режим) | DNS ещё не на IP; закрыты 80/443; занят порт |
 | `connection refused` от proxy | контейнер `app` не запущен |
 | «Чужой» сертификат / предупреждение | `DOMAIN` ≠ то, что в адресной строке |

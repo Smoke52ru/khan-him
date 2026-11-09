@@ -15,13 +15,17 @@ import { Users } from './collections/Users'
 import { AboutPage, PdConsent, PrivacyPolicy } from './globals/ContentPages'
 import { SiteSettings } from './globals/SiteSettings'
 import { createEmailAdapter } from './lib/email'
+import { resolvePublicServerURL } from './lib/serverURL'
 import { createStoragePlugins } from './lib/storage'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+const { serverURL, csrf } = resolvePublicServerURL()
+
 export default buildConfig({
-  serverURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
+  serverURL,
+  csrf,
   admin: {
     user: Users.slug,
     importMap: {
