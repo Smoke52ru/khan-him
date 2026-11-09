@@ -30,7 +30,7 @@ services:
       - .env
     environment:
       DATABASE_URL: postgresql://khan:${POSTGRES_PASSWORD:-khan}@postgres:5432/khan_him
-      NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL:-https://${DOMAIN}}
+      SERVER_URL: ${SERVER_URL:-${NEXT_PUBLIC_SERVER_URL:-https://${DOMAIN}}}
     volumes:
       - uploads:/app/uploads
     depends_on:

@@ -50,11 +50,11 @@ HTTPS (свой домен или sslip.io, см. ниже).
   для формы с телефоном/email на тесте приемлемо, для прода — нет;
 - без workaround в `Caddyfile.ip` админка не держит сессию (см. выше);
 - в письмах ссылки будут вида `http://IP/...` — задайте
-  `NEXT_PUBLIC_SERVER_URL=http://ВАШ_IP`.
+  `SERVER_URL=http://ВАШ_IP`.
 
 Когда появится домен: пропишите DNS A → IP, переключитесь на
 `docker-compose.vps.yml`, в `.env` добавьте `DOMAIN` и
-`NEXT_PUBLIC_SERVER_URL=https://...`, перезапустите стек. Том Postgres
+`SERVER_URL=https://...`, перезапустите стек. Том Postgres
 и `uploads` те же имена — данные сохранятся, если не трогать volumes
 (`down` без `-v`).
 
@@ -240,7 +240,7 @@ POSTGRES_PASSWORD=СИЛЬНЫЙ_ПАРОЛЬ_БД
 PAYLOAD_SECRET=длинная-случайная-строка-не-меньше-32-символов
 
 # без DOMAIN
-NEXT_PUBLIC_SERVER_URL=http://203.0.113.10
+SERVER_URL=http://203.0.113.10
 
 ADMIN_EMAIL=admin@example.com
 ADMIN_PASSWORD=сильный-пароль-админки
@@ -266,7 +266,7 @@ POSTGRES_PASSWORD=СИЛЬНЫЙ_ПАРОЛЬ_БД
 PAYLOAD_SECRET=длинная-случайная-строка-не-меньше-32-символов
 
 DOMAIN=176-53-226-13.sslip.io
-NEXT_PUBLIC_SERVER_URL=https://176-53-226-13.sslip.io
+SERVER_URL=https://176-53-226-13.sslip.io
 
 ADMIN_EMAIL=admin@example.com
 ADMIN_PASSWORD=сильный-пароль-админки
@@ -289,7 +289,7 @@ POSTGRES_PASSWORD=СИЛЬНЫЙ_ПАРОЛЬ_БД
 PAYLOAD_SECRET=длинная-случайная-строка-не-меньше-32-символов
 
 DOMAIN=demo.example.ru
-NEXT_PUBLIC_SERVER_URL=https://demo.example.ru
+SERVER_URL=https://demo.example.ru
 
 ADMIN_EMAIL=admin@example.com
 ADMIN_PASSWORD=сильный-пароль-админки
@@ -304,11 +304,11 @@ REQUESTS_FALLBACK_EMAIL=вы@example.com
 
 Важно:
 
-- **[IP]** — обязателен `NEXT_PUBLIC_SERVER_URL=http://ВАШ_IP`; `DOMAIN` не нужен.
+- **[IP]** — обязателен `SERVER_URL=http://ВАШ_IP`; `DOMAIN` не нужен.
 - **[sslip.io]** / **[домен]** — обязательны и `DOMAIN`, и
-  `NEXT_PUBLIC_SERVER_URL=https://...`. Без `DOMAIN` compose с HTTPS
+  `SERVER_URL=https://...`. Без `DOMAIN` compose с HTTPS
   упадёт на старте.
-- `NEXT_PUBLIC_SERVER_URL` должен совпадать с тем, что люди вбивают в
+- `SERVER_URL` должен совпадать с тем, что люди вбивают в
   браузере (ссылки в письмах на админку строятся из него).
   **Без** `:3000`: снаружи слушает Caddy на 80/443, не сам Node.
   Неверно: `http://176.x.x.x:3000` — логин в `/admin` «проходит» и сразу
@@ -346,7 +346,7 @@ docker compose -f docker-compose.vps-ip.yml logs -f caddy
 **[sslip.io]** — переключение с IP-стека без потери данных:
 
 1. Откройте порт **443** в файрволе / security group (сейчас часто закрыт).
-2. В `.env` задайте `DOMAIN` и `NEXT_PUBLIC_SERVER_URL=https://...`
+2. В `.env` задайте `DOMAIN` и `SERVER_URL=https://...`
    (см. пример выше).
 3. Остановите IP-стек **без** `-v` (тома Postgres и uploads сохраняются):
 
@@ -492,9 +492,10 @@ DOMAIN: ${DOMAIN:?Set DOMAIN in .env}
 
 | Симптом | Что проверить |
 |---|---|
-| По IP ничего не открывается | файрвол: порт 80; `logs caddy` / `logs app`; `NEXT_PUBLIC_SERVER_URL=http://IP` |
-| `/admin` логин не держит сессию | 1) убрать `:3000` из `NEXT_PUBLIC_SERVER_URL`, `up -d --force-recreate app`; 2) на plain `http://IP` без свежего `Caddyfile.ip` (Sec-Fetch-Site fallback) Payload отбрасывает cookie — перейти на HTTPS (`sslip.io` / домен) или обновить `Caddyfile.ip` и перезапустить caddy; 3) `curl` login → `/api/users/me` без `Origin` должен вернуть user |
-| HTTPS / sslip.io не открывается | файрвол: порт **443**; `DOMAIN` и `NEXT_PUBLIC_SERVER_URL=https://...`; стек `docker-compose.vps.yml`, не `vps-ip` |
+| По IP ничего не открывается | файрвол: порт 80; `logs caddy` / `logs app`; `SERVER_URL=http://IP` |
+| `/admin` логин не держит сессию | 1) убрать `:3000` из `SERVER_URL`, `up -d --force-recreate app`; 2) на plain `http://IP` без свежего `Caddyfile.ip` (Sec-Fetch-Site fallback) Payload отбрасывает cookie — перейти на HTTPS (`sslip.io` / домен) или обновить `Caddyfile.ip` и перезапустить caddy; 3) `curl` login → `/api/users/me` без `Origin` должен вернуть user |
+| Вход в `/admin` работает, но любое сохранение — «У вас нет права на выполнение этого действия» | На POST/PATCH браузер шлёт `Origin`, и Payload пускает cookie, только если `Origin` есть в CSRF-списке из `SERVER_URL`. Проверьте `exec app printenv SERVER_URL` (должен быть ровно `http://IP` или `https://домен`). Старые образы читали `NEXT_PUBLIC_SERVER_URL`, который Next.js вшивает при сборке (часто `http://localhost:3000`) — нужен `git pull` и `up -d --build` |
+| HTTPS / sslip.io не открывается | файрвол: порт **443**; `DOMAIN` и `SERVER_URL=https://...`; стек `docker-compose.vps.yml`, не `vps-ip` |
 | В логах TLS / ACME ошибки (доменный режим) | DNS ещё не на IP (для sslip.io — `dig +short …sslip.io`); закрыты 80/443; занят порт |
 | `connection refused` от proxy | контейнер `app` не запущен |
 | «Чужой» сертификат / предупреждение | `DOMAIN` ≠ то, что в адресной строке |
@@ -591,7 +592,7 @@ SMTP — протокол «отправь письмо». Как отправк
 
 В письме будет ссылка вида
 `https://ваш-домен/admin/collections/requests/<id>` —
-для этого критичен правильный `NEXT_PUBLIC_SERVER_URL`.
+для этого критичен правильный `SERVER_URL`.
 Если у заявителя указан email, он попадёт в `Reply-To`.
 
 Ошибка отправки **не откатывает** заявку: заявка уже в БД, ошибка

@@ -47,7 +47,7 @@ services:
       SMTP_PORT: 1025
       SMTP_USER: ''
       SMTP_PASS: ''
-      NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL:-http://127.0.0.1:3000}
+      SERVER_URL: ${SERVER_URL:-http://127.0.0.1:3000}
     volumes:
       - uploads:/app/uploads
     depends_on:

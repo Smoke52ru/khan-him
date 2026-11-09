@@ -1,11 +1,12 @@
 import type { MetadataRoute } from 'next'
 
 import { getPayloadClient } from '@/lib/payload'
+import { resolvePublicServerURL } from '@/lib/serverURL'
 
 export const dynamic = 'force-dynamic'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+  const base = resolvePublicServerURL().serverURL
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${base}/`, changeFrequency: 'weekly', priority: 1 },
     { url: `${base}/catalog`, changeFrequency: 'daily', priority: 0.9 },

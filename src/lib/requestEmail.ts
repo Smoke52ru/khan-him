@@ -2,6 +2,8 @@ import type { Payload, PayloadRequest } from 'payload'
 
 import type { Request } from '@/payload-types'
 
+import { resolvePublicServerURL } from './serverURL'
+
 export async function sendRequestEmail(payload: Payload, doc: Request): Promise<void> {
   const settings = await payload.findGlobal({
     slug: 'site-settings',
@@ -16,7 +18,7 @@ export async function sendRequestEmail(payload: Payload, doc: Request): Promise<
       ? recipients
       : [process.env.REQUESTS_FALLBACK_EMAIL || 'requests@example.com']
 
-  const base = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+  const base = resolvePublicServerURL().serverURL
   const adminLink = `${base}/admin/collections/requests/${doc.id}`
   const items = (doc.items || [])
     .map((item) => `- ${item.name}${item.sku ? ` (${item.sku})` : ''}${item.quantity ? `: ${item.quantity}` : ''}`)

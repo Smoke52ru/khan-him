@@ -1,12 +1,16 @@
 /**
  * Публичный URL приложения и CSRF allowlist для Payload.
  *
- * Браузер шлёт Origin без порта (:80/:443). Если в .env ошибочно указали
- * http://IP:3000 (внутренний порт контейнера за Caddy), cookie-логин в
- * админку молча отваливается: JWT ставится, /api/users/me → user: null.
+ * Читается из SERVER_URL, а не из NEXT_PUBLIC_*: Next.js вшивает
+ * NEXT_PUBLIC_* в бандл при `next build`, и значение из .env в рантайме
+ * контейнера игнорируется. Тогда Origin браузера не попадает в csrf,
+ * Payload отбрасывает cookie на POST/PATCH — «нет права на действие».
+ *
+ * Браузер шлёт Origin без порта (:80/:443). Если ошибочно указали
+ * http://IP:3000 (внутренний порт контейнера за Caddy), порт убирается.
  */
 export function resolvePublicServerURL(
-  raw = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
+  raw = process.env.SERVER_URL || 'http://localhost:3000',
 ): { serverURL: string; csrf: string[] } {
   const trimmed = raw.replace(/\/$/, '')
   const csrf = new Set<string>()
