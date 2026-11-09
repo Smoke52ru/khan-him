@@ -103,6 +103,7 @@ SMTP на `127.0.0.1:1025`, веб-интерфейс на [http://127.0.0.1:802
 | Цель | Файл | URL |
 |---|---|---|
 | Тест по IP, без домена | `docker-compose.vps-ip.yml` + `Caddyfile.ip` | `http://IP/` |
+| HTTPS без своего домена | `docker-compose.vps.yml` + `Caddyfile` | `https://a-b-c-d.sslip.io/` |
 | Домен + HTTPS | `docker-compose.vps.yml` + `Caddyfile` | `https://домен/` |
 
 1. Соберите образ локально или на сервере (`--build`).
@@ -118,6 +119,10 @@ SMTP на `127.0.0.1:1025`, веб-интерфейс на [http://127.0.0.1:802
 
 Postgres и приложение снаружи не торчат — только Caddy (порт 80 или
 80+443).
+
+Админка на VPS: нужен HTTPS (свой домен или `*.sslip.io`) либо
+workaround в `Caddyfile.ip` — иначе на plain `http://IP` Payload не
+принимает cookie сессии (`Sec-Fetch-Site`); подробно в [`DEPLOY.md`](./DEPLOY.md).
 
 ### Чек-лист показа заказчику
 
@@ -155,7 +160,8 @@ Postgres и приложение снаружи не торчат — тольк
   `docker-compose.vps-ip.yml` (VPS по IP, HTTP),
   `docker-compose.vps.yml` (VPS с доменом и HTTPS).
 - Тестовый деплой: Selectel VPS; пошагово — [`DEPLOY.md`](./DEPLOY.md).
-- HTTPS: Caddy + Let's Encrypt по `DOMAIN`; без домена — только HTTP на :80.
+- HTTPS: Caddy + Let's Encrypt по `DOMAIN` (свой домен или `*.sslip.io`);
+  без домена — HTTP на :80 и demo-workaround в `Caddyfile.ip` для админки.
 - Почта: SMTP через `@payloadcms/email-nodemailer` (на VPS порт **587** /
   STARTTLS; см. разбор в `DEPLOY.md`).
 - Файлы по умолчанию на диске (том `uploads`); S3 — опционально через

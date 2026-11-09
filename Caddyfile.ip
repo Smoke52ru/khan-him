@@ -1,5 +1,13 @@
 # HTTP-only для доступа по IP (без домена и без Let's Encrypt).
 # Браузер: http://ВАШ_IP/
+#
+# Demo-only CSRF workaround: браузеры не шлют Sec-Fetch-Site на plain
+# http://IP, а Payload extractJWT без Origin / Sec-Fetch-Site отбрасывает
+# cookie сессии. Подставляем same-origin только если заголовок отсутствует.
+# Cross-site POST по-прежнему проверяется по Origin; SameSite=Lax cookie
+# на cross-site subresource не уходит.
 :80 {
+	@noFetchSite header !Sec-Fetch-Site
+	request_header @noFetchSite Sec-Fetch-Site same-origin
 	reverse_proxy app:3000
 }

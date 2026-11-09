@@ -26,23 +26,39 @@ Let's Encrypt **не выдаёт** нормальный HTTPS-сертифик�
 
 | Режим | Compose | Caddy | URL | Когда |
 |---|---|---|---|---|
-| Только IP | `docker-compose.vps-ip.yml` | `Caddyfile.ip` (порт 80) | `http://ВАШ_IP/` | первый тестовый деплой |
-| Домен + HTTPS | `docker-compose.vps.yml` | `Caddyfile` (80+443) | `https://домен/` | демо «как в бою», прод |
+| Только IP | `docker-compose.vps-ip.yml` | `Caddyfile.ip` (порт 80) | `http://ВАШ_IP/` | быстрый показ без HTTPS |
+| sslip.io + HTTPS | `docker-compose.vps.yml` | `Caddyfile` (80+443) | `https://IP-с-дефисами.sslip.io/` | демо с админкой без своего домена |
+| Свой домен + HTTPS | `docker-compose.vps.yml` | `Caddyfile` (80+443) | `https://домен/` | демо «как в бою», прод |
 
-Ограничения режима по IP:
+### Почему plain `http://IP` ломает сессию админки
+
+Payload `extractJWT` принимает cookie сессии только если есть
+`Origin` из CSRF-списка, пустой CSRF (у нас никогда — в список всегда
+попадает `serverURL`) или заголовок `Sec-Fetch-Site` со значением
+`same-origin` / `same-site` / `none`. Браузеры шлют `Sec-Fetch-Site`
+только на HTTPS и localhost, **не** на `http://IP`. На навигации и
+same-origin GET нет и `Origin`. Итог: логин ставит `payload-token`,
+но следующий запрос к `/admin` или `/api/users/me` выглядит анонимным.
+
+Обход для демо по IP: в `Caddyfile.ip` при отсутствии `Sec-Fetch-Site`
+подставляется `same-origin` (только демо, не для прода). Надёжный путь —
+HTTPS (свой домен или sslip.io, см. ниже).
+
+Ограничения режима по IP (HTTP):
 
 - нет HTTPS — браузер может помечать страницу как «не защищено»;
   для формы с телефоном/email на тесте приемлемо, для прода — нет;
-- cookies/`Secure` и часть строгих браузерных политик ведут себя мягче;
+- без workaround в `Caddyfile.ip` админка не держит сессию (см. выше);
 - в письмах ссылки будут вида `http://IP/...` — задайте
   `NEXT_PUBLIC_SERVER_URL=http://ВАШ_IP`.
 
 Когда появится домен: пропишите DNS A → IP, переключитесь на
 `docker-compose.vps.yml`, в `.env` добавьте `DOMAIN` и
 `NEXT_PUBLIC_SERVER_URL=https://...`, перезапустите стек. Том Postgres
-и `uploads` те же имена — данные сохранятся, если не трогать volumes.
+и `uploads` те же имена — данные сохранятся, если не трогать volumes
+(`down` без `-v`).
 
-Дальше в инструкции оба пути размечены: **[IP]** и **[домен]**.
+Дальше в инструкции пути: **[IP]**, **[sslip.io]** и **[домен]**.
 
 ---
 
@@ -122,6 +138,15 @@ cd /opt/khan-him
 
 **[IP]** — этот шаг пропустите. Сайт будет открываться как `http://ВАШ_IP/`.
 
+**[sslip.io]** — свой DNS не нужен. Имя вида
+`176-53-226-13.sslip.io` само резолвится в `176.53.226.13`
+(точки в IP → дефисы). Проверка:
+
+```bash
+dig +short 176-53-226-13.sslip.io
+# должен показать 176.53.226.13
+```
+
 **[домен]** — в панели регистратора создайте **A-запись**:
 
 ```
@@ -135,8 +160,8 @@ dig +short demo.example.ru
 # должен показать IP сервера
 ```
 
-Без корректного DNS Caddy **не сможет** получить TLS-сертификат
-Let's Encrypt для доменного режима.
+Без корректного DNS (или sslip.io) Caddy **не сможет** получить
+TLS-сертификат Let's Encrypt для HTTPS-режима.
 
 ---
 
@@ -231,6 +256,31 @@ REQUESTS_FALLBACK_EMAIL=вы@example.com
 Подставьте реальный IP Selectel вместо `203.0.113.10`. Порт в URL
 не указывайте — Caddy слушает стандартный 80.
 
+### Пример **[sslip.io]** (HTTPS без своего домена)
+
+Для сервера `176.53.226.13`:
+
+```bash
+DATABASE_URL=postgresql://khan:СИЛЬНЫЙ_ПАРОЛЬ_БД@postgres:5432/khan_him
+POSTGRES_PASSWORD=СИЛЬНЫЙ_ПАРОЛЬ_БД
+PAYLOAD_SECRET=длинная-случайная-строка-не-меньше-32-символов
+
+DOMAIN=176-53-226-13.sslip.io
+NEXT_PUBLIC_SERVER_URL=https://176-53-226-13.sslip.io
+
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=сильный-пароль-админки
+
+SMTP_HOST=smtp.yandex.ru
+SMTP_PORT=587
+SMTP_USER=noreply@yandex.ru
+SMTP_PASS=пароль-приложения
+SMTP_FROM="Хан-Хим <noreply@yandex.ru>"
+REQUESTS_FALLBACK_EMAIL=вы@example.com
+```
+
+Подставьте свой IP в том же формате: `a.b.c.d` → `a-b-c-d.sslip.io`.
+
 ### Пример **[домен]** (HTTPS)
 
 ```bash
@@ -255,8 +305,9 @@ REQUESTS_FALLBACK_EMAIL=вы@example.com
 Важно:
 
 - **[IP]** — обязателен `NEXT_PUBLIC_SERVER_URL=http://ВАШ_IP`; `DOMAIN` не нужен.
-- **[домен]** — обязательны и `DOMAIN`, и `NEXT_PUBLIC_SERVER_URL=https://...`.
-  Без `DOMAIN` compose с HTTPS упадёт на старте.
+- **[sslip.io]** / **[домен]** — обязательны и `DOMAIN`, и
+  `NEXT_PUBLIC_SERVER_URL=https://...`. Без `DOMAIN` compose с HTTPS
+  упадёт на старте.
 - `NEXT_PUBLIC_SERVER_URL` должен совпадать с тем, что люди вбивают в
   браузере (ссылки в письмах на админку строятся из него).
   **Без** `:3000`: снаружи слушает Caddy на 80/443, не сам Node.
@@ -289,7 +340,31 @@ docker compose -f docker-compose.vps-ip.yml logs -f caddy
 ```
 
 Сайт: `http://ВАШ_IP/`  
-Админка: `http://ВАШ_IP/admin`
+Админка: `http://ВАШ_IP/admin`  
+(сессия админки держится за счёт workaround в `Caddyfile.ip`; предпочтительнее HTTPS.)
+
+**[sslip.io]** — переключение с IP-стека без потери данных:
+
+1. Откройте порт **443** в файрволе / security group (сейчас часто закрыт).
+2. В `.env` задайте `DOMAIN` и `NEXT_PUBLIC_SERVER_URL=https://...`
+   (см. пример выше).
+3. Остановите IP-стек **без** `-v` (тома Postgres и uploads сохраняются):
+
+```bash
+cd /opt/khan-him
+docker compose -f docker-compose.vps-ip.yml down
+```
+
+4. Поднимите доменный стек (тот же project name и имена томов):
+
+```bash
+docker compose -f docker-compose.vps.yml up -d --build
+docker compose -f docker-compose.vps.yml ps
+docker compose -f docker-compose.vps.yml logs -f caddy
+```
+
+Сайт: `https://176-53-226-13.sslip.io/`  
+Админка: `https://176-53-226-13.sslip.io/admin`
 
 **[домен]:**
 
@@ -302,6 +377,10 @@ docker compose -f docker-compose.vps.yml logs -f caddy
 
 Сайт: `https://demo.example.ru/`  
 Админка: `https://demo.example.ru/admin`
+
+Первая сборка после смены Dockerfile (кеш `node_modules` из `deps`,
+cache mounts) — полная и долгая; следующие code-only rebuilds заметно
+короче.
 
 Что происходит при старте `app`:
 
@@ -358,6 +437,8 @@ https://demo.example.ru
 
 ```
 :80 {
+	@noFetchSite header !Sec-Fetch-Site
+	request_header @noFetchSite Sec-Fetch-Site same-origin
 	reverse_proxy app:3000
 }
 ```
@@ -365,9 +446,11 @@ https://demo.example.ru
 | Фрагмент | Смысл |
 |---|---|
 | `:80` | Слушать все запросы на порт 80, без привязки к имени хоста. Подойдёт заход по IP. |
+| `@noFetchSite` + `request_header` | Demo-only: если браузер не прислал `Sec-Fetch-Site` (типично для `http://IP`), подставить `same-origin`, иначе Payload отбросит cookie сессии. |
 | `reverse_proxy app:3000` | Отдать запрос контейнеру `app`. |
 
 HTTPS и Let's Encrypt здесь **нет** — браузер откроет `http://IP/`.
+Для нормальной админки предпочтительнее sslip.io или свой домен.
 
 ### `Caddyfile` — режим с доменом и HTTPS
 
@@ -410,8 +493,9 @@ DOMAIN: ${DOMAIN:?Set DOMAIN in .env}
 | Симптом | Что проверить |
 |---|---|
 | По IP ничего не открывается | файрвол: порт 80; `logs caddy` / `logs app`; `NEXT_PUBLIC_SERVER_URL=http://IP` |
-| `/admin` логин не держит сессию | в `.env` убрать `:3000` из `NEXT_PUBLIC_SERVER_URL`; `up -d --force-recreate app`; проверить `exec app printenv NEXT_PUBLIC_SERVER_URL` |
-| В логах TLS / ACME ошибки (доменный режим) | DNS ещё не на IP; закрыты 80/443; занят порт |
+| `/admin` логин не держит сессию | 1) убрать `:3000` из `NEXT_PUBLIC_SERVER_URL`, `up -d --force-recreate app`; 2) на plain `http://IP` без свежего `Caddyfile.ip` (Sec-Fetch-Site fallback) Payload отбрасывает cookie — перейти на HTTPS (`sslip.io` / домен) или обновить `Caddyfile.ip` и перезапустить caddy; 3) `curl` login → `/api/users/me` без `Origin` должен вернуть user |
+| HTTPS / sslip.io не открывается | файрвол: порт **443**; `DOMAIN` и `NEXT_PUBLIC_SERVER_URL=https://...`; стек `docker-compose.vps.yml`, не `vps-ip` |
+| В логах TLS / ACME ошибки (доменный режим) | DNS ещё не на IP (для sslip.io — `dig +short …sslip.io`); закрыты 80/443; занят порт |
 | `connection refused` от proxy | контейнер `app` не запущен |
 | «Чужой» сертификат / предупреждение | `DOMAIN` ≠ то, что в адресной строке |
 | Работает по IP, но не по домену | A-запись или кеш DNS; либо вы всё ещё на `vps-ip` compose |
