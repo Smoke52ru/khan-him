@@ -1,0 +1,98 @@
+name: khan-him-wp
+
+services:
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: khan_him_wp
+      MYSQL_USER: khan
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-khan_local}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-khan_root_local}
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ['CMD', 'healthcheck.sh', '--connect', '--innodb_initialized']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  mailpit:
+    image: axllent/mailpit:v1.27
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:1025:1025'
+      - '127.0.0.1:8025:8025'
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+  wordpress:
+    image: wordpress:6.8-php8.3-apache
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    ports:
+      - '127.0.0.1:3000:80'
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: khan
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:-khan_local}
+      WORDPRESS_DB_NAME: khan_him_wp
+      WORDPRESS_TABLE_PREFIX: wp_
+      WORDPRESS_DEBUG: '1'
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WPLANG', 'ru_RU');
+        define('KHAN_HIM_SMTP_HOST', 'mailpit');
+        define('KHAN_HIM_SMTP_PORT', 1025);
+        define('KHAN_HIM_SMTP_USER', '');
+        define('KHAN_HIM_SMTP_PASS', '');
+        define('KHAN_HIM_SMTP_FROM', 'Хан-Хим <noreply@example.com>');
+        define('KHAN_HIM_REQUESTS_FALLBACK_EMAIL', getenv('REQUESTS_FALLBACK_EMAIL') ?: 'demo@example.com');
+        define('DISALLOW_FILE_EDIT', true);
+    volumes:
+      - wp-data:/var/www/html
+      - ./php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
+      - ./wp-content/themes/khan-him:/var/www/html/wp-content/themes/khan-him
+      - ./wp-content/plugins/khan-him:/var/www/html/wp-content/plugins/khan-him
+      - ./seed:/seed:ro
+      - ./scripts:/scripts:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -fsS http://127.0.0.1/ | head -c 1 >/dev/null']
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  wpcli:
+    image: wordpress:cli-php8.3
+    depends_on:
+      wordpress:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: khan
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:-khan_local}
+      WORDPRESS_DB_NAME: khan_him_wp
+      REQUESTS_FALLBACK_EMAIL: ${REQUESTS_FALLBACK_EMAIL:-demo@example.com}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@example.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin-change-me}
+      ADMIN_USER: ${ADMIN_USER:-admin}
+    volumes:
+      - wp-data:/var/www/html
+      - ./wp-content/themes/khan-him:/var/www/html/wp-content/themes/khan-him
+      - ./wp-content/plugins/khan-him:/var/www/html/wp-content/plugins/khan-him
+      - ./seed:/seed:ro
+      - ./scripts:/scripts:ro
+    user: '33:33'
+    entrypoint: ['wp']
+    command: ['--info']
+
+volumes:
+  db-data:
+  wp-data:
