@@ -12,6 +12,9 @@ function khan_him_configure_phpmailer(PHPMailer\PHPMailer\PHPMailer $phpmailer):
     $port = defined('KHAN_HIM_SMTP_PORT') ? (int) KHAN_HIM_SMTP_PORT : 1025;
     $user = defined('KHAN_HIM_SMTP_USER') ? (string) KHAN_HIM_SMTP_USER : '';
     $pass = defined('KHAN_HIM_SMTP_PASS') ? (string) KHAN_HIM_SMTP_PASS : '';
+    $secure = defined('KHAN_HIM_SMTP_SECURE')
+        ? strtolower(trim((string) KHAN_HIM_SMTP_SECURE))
+        : '';
 
     $phpmailer->isSMTP();
     $phpmailer->Host = $host;
@@ -21,8 +24,14 @@ function khan_him_configure_phpmailer(PHPMailer\PHPMailer\PHPMailer $phpmailer):
         $phpmailer->Username = $user;
         $phpmailer->Password = $pass;
     }
-    $phpmailer->SMTPSecure = false;
-    $phpmailer->SMTPAutoTLS = false;
+    // Пусто / off — без TLS (Mailpit). tls — STARTTLS (587). ssl — SMTPS (465).
+    if ($secure === 'tls' || $secure === 'ssl') {
+        $phpmailer->SMTPSecure = $secure;
+        $phpmailer->SMTPAutoTLS = true;
+    } else {
+        $phpmailer->SMTPSecure = false;
+        $phpmailer->SMTPAutoTLS = false;
+    }
 
     $from = defined('KHAN_HIM_SMTP_FROM')
         ? (string) KHAN_HIM_SMTP_FROM

@@ -178,21 +178,22 @@ Selectel. Next.js на VPS не ломается, но по `smoke52.ru` отк�
 
 ```php
 define('KHAN_HIM_SMTP_HOST', 'mail.hosting.reg.ru');
-define('KHAN_HIM_SMTP_PORT', 587); // STARTTLS; альтернатива — 465 SSL
+define('KHAN_HIM_SMTP_PORT', 587);
 define('KHAN_HIM_SMTP_USER', 'noreply@smoke52.ru');
 define('KHAN_HIM_SMTP_PASS', 'пароль-ящика');
+define('KHAN_HIM_SMTP_SECURE', 'tls'); // 587 → tls; 465 → ssl; локально пусто
 define('KHAN_HIM_SMTP_FROM', 'Хан-Хим <noreply@smoke52.ru>');
 define('KHAN_HIM_REQUESTS_FALLBACK_EMAIL', 'ваш-ящик@gmail.com');
 ```
 
-4. **Код:** в `wordpress/.../includes/mail.php` сейчас для PHPMailer
-   выключены `SMTPSecure` и `SMTPAutoTLS` (удобно для Mailpit). Перед
-   боем на Рег.ру нужно включить шифрование под порт 587 (STARTTLS) или
-   465 (SMTPS) — иначе SMTP Рег.ру, скорее всего, не примет отправку.
-   Это отдельный короткий фикс в плагине до выкладки.
-5. В админке WP: настройки Хан-Хим → адреса для заявок (или опереться
+На хостинге Рег.ру нет Compose-`.env`: те же значения — константами в
+`wp-config.php`. Локально они приходят из `wordpress/.env` (`SMTP_*` →
+`KHAN_HIM_SMTP_*`). Шифрование читает плагин из `KHAN_HIM_SMTP_SECURE`
+(`tls` / `ssl` / пусто).
+
+4. В админке WP: настройки Хан-Хим → адреса для заявок (или опереться
    на `KHAN_HIM_REQUESTS_FALLBACK_EMAIL`).
-6. Проверка: тестовая заявка с сайта → письмо на ящик получателя и
+5. Проверка: тестовая заявка с сайта → письмо на ящик получателя и
    запись в «Заявках». Смотреть также «Спам».
 
 SMTP Рег.ру для клиентов
@@ -217,11 +218,13 @@ SMTP Рег.ру для клиентов
 
 #### 5. Порядок работ
 
-1. Фикс STARTTLS/SSL в `mail.php` плагина.
+1. ~~Фикс STARTTLS/SSL в `mail.php`~~ — сделано: `KHAN_HIM_SMTP_SECURE`
+   (`tls` / `ssl` / пусто), локально `SMTP_SECURE` в `wordpress/.env`.
 2. Заказ/оплата хостинга Рег.ру, создание сайта `smoke52.ru`.
 3. Смена DNS на хостинговые (или A+MX вручную), ожидание делегирования.
 4. Установка WP, заливка темы и плагина, HTTPS, сид/дамп.
-5. Ящик `noreply@…`, константы SMTP в `wp-config.php`, тест заявки.
+5. Ящик `noreply@…`, константы SMTP в `wp-config.php` (включая
+   `KHAN_HIM_SMTP_SECURE=tls`), тест заявки.
 6. Обновить [`DOMAIN.md`](./DOMAIN.md): `smoke52.ru` → хостинг Рег.ру;
    тест Next — IP/sslip.
 
@@ -364,7 +367,7 @@ workaround в `Caddyfile.ip` — иначе на plain `http://IP` Payload не
   ([`MAIL.md`](./MAIL.md)).
 - Почта WordPress на Рег.ру (план): ящик на `smoke52.ru` + SMTP
   `mail.hosting.reg.ru:587` (или 465), константы `KHAN_HIM_SMTP_*` в
-  `wp-config.php`; нужен фикс STARTTLS/SSL в `mail.php` плагина.
+  `wp-config.php`; шифрование — `KHAN_HIM_SMTP_SECURE` (`tls` / `ssl`).
 - Почта в коде Next: `@payloadcms/email-nodemailer`. Порт зависит от
   провайдера (Selectel — 1126, Яндекс и Mail.ru — 587); разбор в
   `DEPLOY.md` и [`MAIL.md`](./MAIL.md).

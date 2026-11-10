@@ -17,6 +17,8 @@
 Ubuntu 22.04/24.04. Публичный IPv4.
 
 Краткий обзор инфраструктуры: [`HOSTING.md`](./HOSTING.md).
+Домен тестового контура `smoke52.ru`: [`DOMAIN.md`](./DOMAIN.md).
+Почта тестового контура (почтовый сервис Selectel): [`MAIL.md`](./MAIL.md).
 
 ## Домен обязателен? Нет — для первого теста хватит IP
 
@@ -136,6 +138,9 @@ cd /opt/khan-him
 
 ## 3. DNS
 
+Тестовый домен **smoke52.ru** (Рег.ру → VPS Selectel, HTTPS) настраивается
+по [`DOMAIN.md`](./DOMAIN.md). Ниже — общая схема для любого имени.
+
 **[IP]** — этот шаг пропустите. Сайт будет открываться как `http://ВАШ_IP/`.
 
 **[sslip.io]** — свой DNS не нужен. Имя вида
@@ -207,20 +212,43 @@ cd khan-him
 
 ### Вариант B — собрать образ локально и загрузить
 
+Для **тестового** стека по IP есть скрипт (сборка → `docker save` →
+`scp` → `load` → `up` без `--build` на сервере):
+
+```bash
+# на своей машине, из корня репо; на VPS уже есть /opt/khan-him/.env
+./scripts/deploy-vps-ip.sh --host ВАШ_IP
+./scripts/deploy-vps-ip.sh --host ВАШ_IP --prune   # почистить builder/unused images
+./scripts/deploy-vps-ip.sh --host ВАШ_IP --seed    # после up: pnpm seed
+./scripts/deploy-vps-ip.sh --host ВАШ_IP --prune --seed
+```
+
+Скрипт заливает `docker-compose.vps-ip.yml` и `Caddyfile.ip`, **не**
+трогает `.env`. По умолчанию `docker build --platform linux/amd64`.
+`--prune` не удаляет volumes (`db-data`, `uploads`). Перед сборкой и
+после `up` выставляет `a+r` на `pnpm-workspace.yaml` и соседние конфиги
+(иначе в образе остаются `0600`, и `pnpm seed` от пользователя `nextjs`
+падает с Permission denied).
+
+Вручную то же самое:
+
 ```bash
 # локально
-docker build -t khan-him:latest .
+docker build --platform linux/amd64 -t khan-him:latest .
 docker save khan-him:latest | gzip > khan-him.tar.gz
 scp khan-him.tar.gz root@ВАШ_IP:/opt/khan-him/
 
 # на VPS
 cd /opt/khan-him
 gunzip -c khan-him.tar.gz | docker load
+rm -f khan-him.tar.gz
+docker compose -f docker-compose.vps-ip.yml up -d --force-recreate app caddy
+# без --build
 ```
 
-При варианте B на сервере всё равно нужны `docker-compose.vps.yml`,
-`Caddyfile` и `.env`. Строка `build: .` в compose не обязательна, если
-образ уже загружен (`image: khan-him:latest`).
+На сервере всё равно нужны compose, Caddyfile и `.env`. Строка
+`build: .` в compose не мешает: без `--build` берётся уже загруженный
+`image: khan-him:latest`.
 
 ---
 
@@ -288,17 +316,18 @@ DATABASE_URL=postgresql://khan:СИЛЬНЫЙ_ПАРОЛЬ_БД@postgres:5432/kh
 POSTGRES_PASSWORD=СИЛЬНЫЙ_ПАРОЛЬ_БД
 PAYLOAD_SECRET=длинная-случайная-строка-не-меньше-32-символов
 
-DOMAIN=demo.example.ru
-SERVER_URL=https://demo.example.ru
+DOMAIN=smoke52.ru
+SERVER_URL=https://smoke52.ru
 
 ADMIN_EMAIL=admin@example.com
 ADMIN_PASSWORD=сильный-пароль-админки
 
-SMTP_HOST=smtp.yandex.ru
-SMTP_PORT=587
-SMTP_USER=noreply@ваш-домен.ru
-SMTP_PASS=пароль-приложения
-SMTP_FROM="Хан-Хим <noreply@ваш-домен.ru>"
+# почта теста — почтовый сервис Selectel, подробно в MAIL.md
+SMTP_HOST=smtp.mail.selcloud.ru
+SMTP_PORT=1126
+SMTP_USER=логин-с-вкладки-Информация
+SMTP_PASS=пароль-с-вкладки-Информация
+SMTP_FROM="Хан-Хим <noreply@smoke52.ru>"
 REQUESTS_FALLBACK_EMAIL=вы@example.com
 ```
 
@@ -375,8 +404,8 @@ docker compose -f docker-compose.vps.yml ps
 docker compose -f docker-compose.vps.yml logs -f caddy
 ```
 
-Сайт: `https://demo.example.ru/`  
-Админка: `https://demo.example.ru/admin`
+Сайт: `https://smoke52.ru/`  
+Админка: `https://smoke52.ru/admin`
 
 Первая сборка после смены Dockerfile (кеш `node_modules` из `deps`,
 cache mounts) — полная и долгая; следующие code-only rebuilds заметно
@@ -530,7 +559,11 @@ docker compose -f docker-compose.vps.yml up -d caddy
 Когда посетитель отправляет заявку, в базу пишется запись в коллекции
 `requests`, и менеджер должен получить письмо. Приложение **не является**
 почтовым сервером: оно только **подключается** к чужому SMTP
-(Яндекс, Mail.ru, корпоративная почта) и просит: «отправь это письмо».
+и просит: «отправь это письмо».
+
+На тестовом контуре SMTP — почтовый сервис Selectel, отправитель
+`noreply@smoke52.ru`. Пошагово: [`MAIL.md`](./MAIL.md). Примеры Яндекса
+и Mail.ru ниже — запасной вариант, не текущая схема теста.
 
 Цепочка:
 
@@ -579,10 +612,11 @@ SMTP — протокол «отправь письмо». Как отправк
 | `SMTP_PASS` | Пароль / пароль приложения |
 | `SMTP_FROM` | Отправитель, можно `"Имя <addr@domain>"` |
 
-Важно для текущего кода: в адаптере стоит `secure: false`. Это нормально
-для порта **587** (шифрование включается через STARTTLS после соединения).
-Для порта **465** обычно нужен `secure: true` — **сейчас код под 465
-не заточен**. На VPS используйте **порт 587**.
+Важно для текущего кода: в адаптере стоит `secure: false`. Шифрование
+включается через STARTTLS после соединения. Так работают порт **587**
+(Яндекс, Mail.ru) и порт **1126** почтового сервиса Selectel.
+Порты **465** и **1127** (TLS сразу, `secure: true`) текущий код не
+использует. На тестовом контуре — **1126**, см. [`MAIL.md`](./MAIL.md).
 
 Получатели писем о заявках (`src/lib/requestEmail.ts`):
 
@@ -727,8 +761,9 @@ docker run --rm -v khan-him_uploads:/data -v "$(pwd)":/backup alpine \
 
 - Object Storage Selectel (S3) — опционально через `S3_*`, по умолчанию
   диск/`uploads`.
-- Почта на домене заказчика и DNS DKIM/SPF — настройте вместе с
-  почтовым провайдером, иначе выше риск спама.
+- Почта и DNS SPF/DKIM/DMARC тестового домена `smoke52.ru` —
+  [`MAIL.md`](./MAIL.md). Почта на домене заказчика — позже, вместе
+  с его провайдером.
 - Автоматические бэкапы по cron — пока ручные (см. §10).
 - CI/CD — деплой вручную по этой инструкции.
 

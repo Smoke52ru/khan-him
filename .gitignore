@@ -18,6 +18,8 @@
 
 # production
 /build
+khan-him.tar.gz
+*.docker.tar.gz
 
 # misc
 .DS_Store
