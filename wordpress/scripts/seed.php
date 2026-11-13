@@ -1,7 +1,11 @@
 <?php
 /**
  * WP-CLI: wp eval-file /scripts/seed.php
- * Flags via env: KHAN_HIM_SEED_RESET=1
+ * Flags via env:
+ *   KHAN_HIM_SEED_RESET=1          — очистить каталог (только профиль full)
+ *   KHAN_HIM_SEED_PROFILE=prod     — страницы, рубрики, товары и картинки
+ *                                    без админа, реквизитов, главной и паспортов
+ *                                    (по умолчанию full)
  *
  * Note: no declare(strict_types=1) — wp eval-file wraps the file.
  */
@@ -13,6 +17,18 @@ if (!defined('ABSPATH')) {
 
 $reset = getenv('KHAN_HIM_SEED_RESET') === '1'
     || (isset($args) && is_array($args) && in_array('--reset', $args, true));
+
+$profile = getenv('KHAN_HIM_SEED_PROFILE') ?: 'full';
+if ($profile !== 'full' && $profile !== 'prod') {
+    WP_CLI::error('KHAN_HIM_SEED_PROFILE должен быть full или prod.');
+}
+if ($profile === 'prod' && $reset) {
+    WP_CLI::error('Сброс каталога запрещён в профиле prod.');
+}
+if ($profile === 'prod' && !post_type_exists('product')) {
+    WP_CLI::error('Тип записи product не зарегистрирован. Активируйте плагин khan-him.');
+}
+WP_CLI::log("Profile: {$profile}");
 
 $admin_user = getenv('ADMIN_USER') ?: 'admin';
 $admin_email = getenv('ADMIN_EMAIL') ?: 'admin@example.com';
@@ -73,40 +89,42 @@ if ($reset) {
     WP_CLI::log('Catalog cleared.');
 }
 
-if (!username_exists($admin_user) && !email_exists($admin_email)) {
-    $user_id = wp_create_user($admin_user, $admin_password, $admin_email);
-    if (!is_wp_error($user_id)) {
-        $user = new WP_User($user_id);
-        $user->set_role('administrator');
-        WP_CLI::log("Admin created: {$admin_email}");
+if ($profile === 'full') {
+    if (!username_exists($admin_user) && !email_exists($admin_email)) {
+        $user_id = wp_create_user($admin_user, $admin_password, $admin_email);
+        if (!is_wp_error($user_id)) {
+            $user = new WP_User($user_id);
+            $user->set_role('administrator');
+            WP_CLI::log("Admin created: {$admin_email}");
+        }
+    } else {
+        $user = get_user_by('login', $admin_user) ?: get_user_by('email', $admin_email);
+        if ($user instanceof WP_User) {
+            $user->set_role('administrator');
+            wp_update_user(['ID' => $user->ID, 'user_pass' => $admin_password, 'user_email' => $admin_email]);
+            WP_CLI::log("Admin updated: {$admin_email}");
+        }
     }
-} else {
-    $user = get_user_by('login', $admin_user) ?: get_user_by('email', $admin_email);
-    if ($user instanceof WP_User) {
-        $user->set_role('administrator');
-        wp_update_user(['ID' => $user->ID, 'user_pass' => $admin_password, 'user_email' => $admin_email]);
-        WP_CLI::log("Admin updated: {$admin_email}");
-    }
+
+    update_option('khan_him_site_settings', [
+        'company_name' => 'Хан-Хим',
+        'phone' => '+7 (495) 000-00-00',
+        'email' => 'info@example.com',
+        'address' => 'Москва',
+        'inn' => '7700000000',
+        'ogrn' => '1027700000000',
+        'kpp' => '770001001',
+        'legal_address' => 'Москва',
+        'request_emails' => [$fallback_email],
+    ]);
+
+    update_option('blogname', 'Хан-Хим');
+    update_option('blogdescription', 'Оптовый каталог химической продукции');
+    update_option('WPLANG', 'ru_RU');
+    update_option('users_can_register', 0);
+    update_option('permalink_structure', '/%postname%/');
+    flush_rewrite_rules();
 }
-
-update_option('khan_him_site_settings', [
-    'company_name' => 'Хан-Хим',
-    'phone' => '+7 (495) 000-00-00',
-    'email' => 'info@example.com',
-    'address' => 'Москва',
-    'inn' => '7700000000',
-    'ogrn' => '1027700000000',
-    'kpp' => '770001001',
-    'legal_address' => 'Москва',
-    'request_emails' => [$fallback_email],
-]);
-
-update_option('blogname', 'Хан-Хим');
-update_option('blogdescription', 'Оптовый каталог химической продукции');
-update_option('WPLANG', 'ru_RU');
-update_option('users_can_register', 0);
-update_option('permalink_structure', '/%postname%/');
-flush_rewrite_rules();
 
 $pages = [
     'about' => 'О компании',
@@ -131,8 +149,6 @@ foreach ($pages as $slug => $title) {
     ]);
 }
 
-$front = get_page_by_path('about'); // placeholder; front is posts? use show_on_front page
-// Use a dedicated home: create if missing
 $home = get_page_by_path('home');
 if (!$home) {
     $home_id = wp_insert_post([
@@ -145,8 +161,10 @@ if (!$home) {
 } else {
     $home_id = $home->ID;
 }
-update_option('show_on_front', 'page');
-update_option('page_on_front', (int) $home_id);
+if ($profile === 'full') {
+    update_option('show_on_front', 'page');
+    update_option('page_on_front', (int) $home_id);
+}
 
 $term_ids = [];
 foreach ($categories as $cat) {
@@ -260,7 +278,7 @@ foreach ($products as $product) {
         }
     }
 
-    if (!empty($product['withDocument'])) {
+    if ($profile === 'full' && !empty($product['withDocument'])) {
         if ($doc_id <= 0) {
             $doc_id = khan_him_seed_sideload($doc_path, 'Паспорт качества (образец)');
         }
@@ -274,7 +292,9 @@ foreach ($products as $product) {
     $created++;
 }
 
-switch_theme('khan-him');
-activate_plugin('khan-him/khan-him.php');
+if ($profile === 'full') {
+    switch_theme('khan-him');
+    activate_plugin('khan-him/khan-him.php');
+}
 
 WP_CLI::success("Seed done. Created {$created}, skipped {$skipped}.");

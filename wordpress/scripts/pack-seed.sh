@@ -28,9 +28,14 @@ cat > "$BUNDLE/README.txt" << 'EOF'
 
    wp eval-file /полный/путь/khan-him-seed/scripts/seed.php
 
-   Сброс каталога и повторный сид:
+   Сброс каталога и повторный сид (только локально / пустой контур):
 
    KHAN_HIM_SEED_RESET=1 wp eval-file /полный/путь/khan-him-seed/scripts/seed.php
+
+   Боевой сайт — только страницы, рубрики, товары и картинки
+   (без админа, реквизитов, смены главной и паспортов):
+
+   KHAN_HIM_SEED_PROFILE=prod wp eval-file /полный/путь/khan-him-seed/scripts/seed.php
 
 4. Путь к данным: рядом со scripts/ лежит seed/.
    Или задайте KHAN_HIM_SEED_DIR=/полный/путь/khan-him-seed/seed

@@ -1,10 +1,10 @@
 # Деплой на VPS (Selectel)
 
-> **OUTDATED для тестового контура.** Публичный тест сейчас — WordPress
-> на хостинге Рег.ру (`https://smoke52.ru`), см. [`HOSTING.md`](./HOSTING.md),
-> [`DOMAIN.md`](./DOMAIN.md), [`MAIL.md`](./MAIL.md).
+> **Не публичный сайт.** Боевой сайт — WordPress на хостинге Рег.ру
+> (`https://khan-him.ru`), см. [`HOSTING.md`](./HOSTING.md).
 > Этот файл сохранён как инструкция по деплою **сборки Next.js + Payload**
-> на VPS (Selectel / аналог) и не описывает актуальный показ заказчику.
+> на VPS (Selectel / аналог). `smoke52.ru` — прежний тест
+> ([`DOMAIN.md`](./DOMAIN.md), [`MAIL.md`](./MAIL.md)).
 
 Пошаговая инструкция деплоя сборки Next.js + Payload
 на облачный сервер Selectel. Стек на сервере:
