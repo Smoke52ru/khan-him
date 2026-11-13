@@ -1,15 +1,114 @@
 # Домен тестового контура (smoke52.ru)
 
+**Актуально:** `https://smoke52.ru` — WordPress на виртуальном хостинге
+Рег.ру. Это **единственный** публичный тестовый контур.
+
+Инструкции ниже для текущего контура. Историческая привязка того же
+домена к VPS Selectel (Next.js + Caddy) сохранена в конце файла и помечена
+**OUTDATED**.
+
+Домен разработчика для теста. Домен и почта заказчика — отдельный вопрос,
+см. [`HOSTING.md`](./HOSTING.md).
+
+Почта на домене (ящик + SMTP хостинга Рег.ру): [`MAIL.md`](./MAIL.md).
+Выкладка WordPress: [`HOSTING.md`](./HOSTING.md) → «WordPress на хостинге
+Рег.ру». Пакет темы/плагина: `wordpress/scripts/pack-release-a.sh`.
+
+```
+Браузер
+   │  https://smoke52.ru
+   ▼
+DNS хостинга Рег.ру (часто ns1.hosting.reg.ru / ns2.hosting.reg.ru)
+   │  A  →  IP виртуального хостинга
+   ▼
+виртуальный хостинг Рег.ру :443
+   │  Let's Encrypt в панели, WordPress
+   ▼
+тема + плагин khan-him
+```
+
+Публичный сайт (проверка на момент обновления docs): A → `37.140.192.90`,
+сертификат Let's Encrypt на `smoke52.ru` и `www.smoke52.ru`.
+
+---
+
+## 0. DNS для хостинга Рег.ру
+
+1. Личный кабинет Рег.ру → **Домены** → **smoke52.ru**.
+2. Для сайта и почты на одном хостинге предпочтительны DNS-серверы
+   хостинга: `ns1.hosting.reg.ru` и `ns2.hosting.reg.ru`
+   ([справка](https://help.reg.ru/support/dns-servery-i-nastroyka-zony/rabota-s-dns-serverami/kak-propisat-dns-dlya-domena-v-lichnom-kabinete-reg-ru)).
+3. Либо оставить `ns1.reg.ru` / `ns2.reg.ru` и вручную поставить A на IP
+   хостинга (+ MX/SPF для почты, см. [`MAIL.md`](./MAIL.md)).
+
+Домен должен быть **добавлен как сайт** в панели хостинга
+([привязка](https://help.reg.ru/support/hosting/privyazka-domena-k-hostingu/kak-privyazat-domen-k-hostingu)).
+
+Проверка:
+
+```bash
+dig +short NS smoke52.ru
+dig +short A smoke52.ru
+# A — IP хостинга Рег.ру, не бывший VPS Selectel (176.53.226.13)
+```
+
+---
+
+## 1. HTTPS (бесплатный Let's Encrypt)
+
+1. DNS уже указывает на этот хостинг; `http://smoke52.ru` открывается.
+2. Пока сертификат не выпущен — не включайте редирект HTTP→HTTPS и не
+   закрывайте `/.well-known/acme-challenge/`.
+3. В панели хостинга:
+   - **ispmanager:** Сайты → домен → защищённое соединение (SSL) →
+     Let's Encrypt; затем «Перенаправлять HTTP-запросы в HTTPS»;
+   - **cPanel:** Безопасность → Бесплатный SSL → Выпустить
+     ([справка](https://help.reg.ru/support/ssl-sertifikaty/3-etap-ustanovka-ssl-sertifikata/rasshireniye-let-encrypt-v-cpanel)).
+4. В WordPress → Настройки → Общие: оба URL = `https://smoke52.ru`
+   (без слэша в конце).
+5. Проверка: `https://smoke52.ru` с замочком; `http://` → редирект на
+   `https://`.
+
+Редирект HTTP→HTTPS
+([справка Рег.ру](https://help.reg.ru/support/hosting/redirekty/redirekt-s-http-na-https-dlya-linux))
+включайте **после** успешного выпуска сертификата.
+
+Если браузер пишет «Not secure» при валидном LE: откройте именно
+`https://…`, инкогнито, сверьте `dig` с IP хостинга. Со стороны сервера
+часто всё уже в порядке (кеш / старый HTTP / чужой URL).
+
+---
+
+## 2. www
+
+Сертификат обычно выпускают сразу на `smoke52.ru` и `www.smoke52.ru`.
+Канонический адрес сайта в WP — корень `https://smoke52.ru`; `www`
+редиректит на него.
+
+---
+
+## 3. Связь с почтой
+
+MX, SPF и ящики — на хостинге Рег.ру, не Selectel. См. [`MAIL.md`](./MAIL.md).
+SPF Selectel (`spf.mail.selcloud.ru`) на этом домене для текущего контура
+не использовать.
+
+---
+
+# OUTDATED: Selectel VPS + Caddy (Next.js)
+
+> **OUTDATED.** Ниже — прежняя схема: `smoke52.ru` → A на VPS Selectel,
+> HTTPS через Caddy/Let's Encrypt, приложение Next.js + Payload в Docker.
+> Публичный тест так больше не крутится. Текст сохранён как справочник.
+> Актуальный контур — WordPress на хостинге Рег.ру (разделы выше).
+> Деплой Next на VPS: [`DEPLOY.md`](./DEPLOY.md) (тоже OUTDATED для теста).
+
 Пошаговая привязка сайта на VPS Selectel к домену **smoke52.ru**
-(регистратор Рег.ру). После настройки сайт открывается как
-`https://smoke52.ru` с сертификатом Let's Encrypt.
+(регистратор Рег.ру). После настройки сайт открывался как
+`https://smoke52.ru` с сертификатом Let's Encrypt (Caddy).
 
-Это домен разработчика для теста. Домен и почта заказчика — отдельный
-вопрос, см. [`HOSTING.md`](./HOSTING.md).
-
-Почта на этом же домене (SPF, DKIM, DMARC, SMTP) — в
-[`MAIL.md`](./MAIL.md). Записи почты кладутся в ту же зону Рег.ру и
-сайт не ломают.
+Почта на том же домене через Selectel SES — в OUTDATED-части
+[`MAIL.md`](./MAIL.md).
 
 Общий деплой сервера (Docker, Caddy, бэкап) — в [`DEPLOY.md`](./DEPLOY.md).
 
@@ -26,16 +125,16 @@ Selectel VPS :443
 контейнер app :3000  (Next.js + Payload)
 ```
 
-Сейчас тестовый сервер — публичный IPv4 **176.53.226.13**
+Тестовый сервер того контура — публичный IPv4 **176.53.226.13**
 (стек по IP, `docker-compose.vps-ip.yml`). Перед сохранением A-записи
-сверьте адрес в панели Selectel: **Облачная платформа → Серверы →**
-карточка сервера. Если сервер пересоздавали, в DNS нужен новый адрес.
+сверяли адрес в панели Selectel: **Облачная платформа → Серверы →**
+карточка сервера.
 
 Каталог проекта на сервере: `/opt/khan-him`.
 
 ---
 
-## 0. DNS-серверы Рег.ру
+## OUTDATED 0. DNS-серверы Рег.ру (зона под VPS)
 
 Зону из этой инструкции видят только серверы Рег.ру
 `ns1.reg.ru` и `ns2.reg.ru`. Для нового домена в Рег.ру они стоят
@@ -59,7 +158,7 @@ Selectel VPS :443
 
 ---
 
-## 1. A-запись на VPS
+## OUTDATED 1. A-запись на VPS
 
 В том же блоке **DNS-серверы и управление зоной** нажмите **Изменить**,
 затем **Добавить запись**.
@@ -87,7 +186,7 @@ Selectel VPS :443
 
 ---
 
-## 2. Проверить, что имя смотрит на сервер
+## OUTDATED 2. Проверить, что имя смотрит на сервер
 
 На своей машине или на VPS (`apt install dnsutils`, если нет `dig`):
 
@@ -109,7 +208,7 @@ ns2.reg.ru.
 
 ---
 
-## 3. Открыть 80 и 443
+## OUTDATED 3. Открыть 80 и 443
 
 В панели Selectel у сервера (файрвол / группа безопасности) входящие:
 
@@ -123,7 +222,7 @@ ns2.reg.ru.
 
 ---
 
-## 4. `.env` на сервере
+## OUTDATED 4. `.env` на сервере
 
 Файл: `/opt/khan-him/.env`.
 
@@ -144,11 +243,11 @@ SERVER_URL=https://smoke52.ru
 перехода на домен снова сломает сессию админки.
 
 Остальные переменные (секреты, Postgres, SMTP) не трогайте, кроме
-почты по [`MAIL.md`](./MAIL.md). Пароли в git не коммитьте.
+почты по OUTDATED-части [`MAIL.md`](./MAIL.md). Пароли в git не коммитьте.
 
 ---
 
-## 5. Переключить стек с IP на домен
+## OUTDATED 5. Переключить стек с IP на домен
 
 На VPS, из `/opt/khan-him`. Том Postgres и `uploads` сохраняются:
 `down` **без** `-v`.
@@ -184,7 +283,7 @@ Caddy читает `Caddyfile`:
 
 ---
 
-## 6. Проверка
+## OUTDATED 6. Проверка
 
 1. `dig +short A smoke52.ru` — IP сервера.
 2. `https://smoke52.ru/` открывается, в браузере сертификат Let's Encrypt.
@@ -193,12 +292,11 @@ Caddy читает `Caddyfile`:
 5. `docker compose -f docker-compose.vps.yml exec app printenv SERVER_URL`
    печатает `https://smoke52.ru`.
 
-Почту после этого проверьте по [`MAIL.md`](./MAIL.md): ссылка на заявку
-в письме должна начинаться с `https://smoke52.ru`.
+Почту после этого проверяли по [`MAIL.md`](./MAIL.md) (Selectel SES).
 
 ---
 
-## Если что-то не так
+## OUTDATED: Если что-то не так (VPS)
 
 | Симптом | Что сделать |
 |---|---|
@@ -224,11 +322,11 @@ docker compose -f docker-compose.vps.yml up -d caddy
 
 ---
 
-## Записи в зоне, когда подключена и почта
+## OUTDATED: Записи в зоне при почте Selectel
 
-Сайт использует только A. Остальное добавляется по [`MAIL.md`](./MAIL.md)
-и с сайтом не конфликтует. MX нет: почтовый сервис Selectel ящиков
-на домене не держит.
+Сайт использовал только A. Остальное добавлялось по Selectel SES
+([`MAIL.md`](./MAIL.md), OUTDATED). MX нет: почтовый сервис Selectel
+ящиков на домене не держал.
 
 | Subdomain | Тип | Зачем |
 |---|---|---|

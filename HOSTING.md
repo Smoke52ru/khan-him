@@ -33,9 +33,10 @@
                                            SMTP: почта заказчика
 ```
 
-## Текущая реализация
+## Текущая реализация (Next.js + Payload)
 
-Эта сборка уже работает. Вторая описана следом.
+Сборка в корне репозитория. Локально и (при нужде) на VPS. **Публичный
+тестовый контур сейчас — WordPress**, см. следующий раздел.
 
 | Слой | Выбор |
 |---|---|
@@ -49,19 +50,23 @@
 16.4. Переход на Payload 4 — отдельной задачей после релиза: например, адаптеры
 хранилищ в v4 подключаются через ключ `storage`, а не `plugins`.
 
-## Вторая реализация (WordPress)
+## Вторая реализация (WordPress) — тестовый контур
 
 Та же витрина, заявки и админка на PHP и MySQL, чтобы боевой сайт этой сборки
 мог стоять на виртуальном хостинге в РФ. Код в каталоге `wordpress/`: тема
 `khan-him`, плагин `khan-him`, Compose (WordPress, MariaDB, Mailpit).
 
+**Публичный тест сейчас ведётся этой сборкой** (`https://smoke52.ru` на
+Рег.ру). Сборка Next.js остаётся в репозитории и локально; на VPS Selectel
+для показа больше не развёрнута.
+
 ```
-   текущая сборка                         вторая сборка
+   сборка Next.js                         WordPress (тест сейчас)
    Next.js + Payload                      WordPress
    Postgres, диск или S3                  MySQL, диск аккаунта
-   VPS, Docker                            виртуальный хостинг, PHP
+   локально / VPS (OUTDATED для теста)    виртуальный хостинг Рег.ру
           |                                      |
-          +---- не запускаются вместе ----------+
+          +---- локально не запускают вместе ----+
           |                                      |
           v                                      v
    свои товары и заявки                 свои товары и заявки
@@ -98,12 +103,15 @@ Mailpit: [http://127.0.0.1:8025](http://127.0.0.1:8025)
 Чтобы вернуться к текущей сборке: в `wordpress/` выполните
 `docker compose down` (без `-v`), затем в корне — `docker compose up -d`.
 
-Какая сборка станет боевой у заказчика, пока не решено. Тестовый показ
-WordPress готовится на виртуальный хостинг Рег.ру и домен разработчика
-`smoke52.ru` (план ниже). Next.js на Selectel при этом остаётся доступен
-по IP / `*.sslip.io` — см. [`DEPLOY.md`](./DEPLOY.md).
+Какая сборка станет боевой у заказчика, пока не решено.
 
-### План: WordPress на хостинге Рег.ру + smoke52.ru + почта
+**Тестовый контур (актуально):** только WordPress на виртуальном хостинге
+Рег.ру, домен `https://smoke52.ru`. VPS Selectel и почтовый сервис
+Selectel для публичного теста **не используются** (инструкции помечены
+OUTDATED в [`DEPLOY.md`](./DEPLOY.md), [`DOMAIN.md`](./DOMAIN.md),
+[`MAIL.md`](./MAIL.md)).
+
+### WordPress на хостинге Рег.ру + smoke52.ru + почта
 
 Цель: сайт WordPress открывается как `https://smoke52.ru`, заявки уходят
 письмом. Docker на хостинге не нужен: PHP, MySQL и почта — услуги Рег.ру.
@@ -120,9 +128,9 @@ WordPress готовится на виртуальный хостинг Рег.�
      ящик noreply@smoke52.ru  →  получатель заявок
 ```
 
-Пока домен смотрит на хостинг Рег.ру, A-запись больше не ведёт на VPS
-Selectel. Next.js на VPS не ломается, но по `smoke52.ru` открываться
-перестанет — для него остаются `http://IP` или `https://IP.sslip.io`.
+Домен `smoke52.ru` смотрит на хостинг Рег.ру (не на VPS Selectel).
+Актуальное состояние DNS/HTTPS — [`DOMAIN.md`](./DOMAIN.md); почта —
+[`MAIL.md`](./MAIL.md).
 
 #### 1. Хостинг
 
@@ -135,35 +143,51 @@ Selectel. Next.js на VPS не ломается, но по `smoke52.ru` отк�
 
 Предпочтительный DNS для сайта и почты вместе: серверы хостинга
 `ns1.hosting.reg.ru` и `ns2.hosting.reg.ru` — тогда A/MX/SPF для почты
-Рег.ру часто поднимаются сами. Сейчас у `smoke52.ru` стоят
-`ns1.reg.ru` / `ns2.reg.ru` (зона под Selectel) — их нужно сменить
-на хостинговые **или** вручную прописать A на IP хостинга плюс MX/TXT
-почты (см. шаг 3).
+Рег.ру часто поднимаются сами. Альтернатива: `ns1.reg.ru` / `ns2.reg.ru`
+и вручную A на IP хостинга плюс MX/TXT почты (см. [`MAIL.md`](./MAIL.md)).
 
 #### 2. WordPress и код Хан-Хим
 
+**Предпочтительный сценарий демо (A):** чистый WordPress на хостинге +
+zip темы и плагина + сид через WP-CLI (или каталог вручную). Дамп БД и
+`uploads` с локалки не тащим.
+
+Сборка пакета локально (нужен `zip`):
+
+```bash
+cd wordpress
+./scripts/pack-release-a.sh          # → dist/release-a-ГГГГММДД-ЧЧММ/
+# или по отдельности:
+./scripts/pack-code.sh               # theme.zip + plugin.zip
+./scripts/pack-seed.sh               # khan-him-seed.tar.gz для WP-CLI
+./scripts/print-wp-config-smtp.sh    # фрагмент SMTP в stdout
+```
+
+Артефакты в `wordpress/dist/` (в git не коммитятся).
+
 1. Установить WordPress из панели Рег.ру (или залить ядро вручную).
-2. Загрузить на хостинг:
-   - тему `wordpress/wp-content/themes/khan-him`;
-   - плагин `wordpress/wp-content/plugins/khan-him`.
-3. В `/wp-admin`: активировать плагин и тему `khan-him`.
+2. Загрузить `khan-him-theme.zip` и `khan-him-plugin.zip` через
+   wp-admin (или распаковать в `wp-content/themes` / `plugins`).
+3. Активировать плагин `khan-him`, затем тему `khan-him`.
 4. Создать БД MySQL в панели, прописать её в `wp-config.php` (если
    установщик сам не прописал).
-5. Демо-данные: либо перенести дамп с локального Compose, либо
-   прогнать сид (`wordpress/scripts/seed.php` через WP-CLI на хостинге,
-   если CLI доступен; иначе — ручной импорт дампа + медиа).
+5. Демо-данные:
+   - есть WP-CLI: распаковать `khan-him-seed.tar.gz`, выполнить
+     `wp eval-file …/khan-him-seed/scripts/seed.php` (см. README в
+     архиве);
+   - нет CLI: набить каталог вручную в админке.
 6. В настройках WordPress: адрес сайта = `https://smoke52.ru`, ЧПУ
    «название записи», HTTPS (сертификат из панели Рег.ру / Let's Encrypt).
 7. Лимит загрузки PHP ≥ 20 МБ (как в локальном `uploads.ini`).
 
-Состав переноса по спецификации: тема, плагин, дамп MySQL, каталог
-`wp-content/uploads` — без Node и без Docker.
+Состав переноса для сценария A: тема, плагин, при наличии CLI — пакет
+сида; без Node и без Docker.
 
 #### 3. Почта (обязательно до показа заявок)
 
-На хостинге Рег.ру письма сайта идут через **ящик на том же домене**,
-не через почтовый сервис Selectel (у Selectel другие SPF/DKIM и порт
-1126; на shared-хостинге исходящий SMTP на чужой порт часто режут).
+На хостинге Рег.ру письма сайта идут через **ящик на том же домене**.
+Почтовый сервис Selectel для этого контура не используем (OUTDATED;
+другие SPF/DKIM и порт 1126 — см. [`MAIL.md`](./MAIL.md)).
 
 1. Настроить почту домена на хостинге
    ([справка](https://help.reg.ru/support/hosting/nastroyka-pochty-regru/nastroyka-pochty-i-pochtovykh-kliyentovv/nastroyka-pochty-na-hostingee)):
@@ -202,10 +226,8 @@ SMTP Рег.ру для клиентов
 полный email ящика.
 
 Не смешивать на одном домене SPF Selectel (`spf.mail.selcloud.ru`) и SPF
-хостинга Рег.ру без нужды: для WordPress на Рег.ру оставляем почту
-хостинга. Почтовый сервис Selectel остаётся для Next.js на VPS
-([`MAIL.md`](./MAIL.md)), пока Next шлёт с `smoke52.ru` или пока домен
-отправителя Next не сменят.
+хостинга Рег.ру: для текущего теста только почта хостинга
+([`MAIL.md`](./MAIL.md)).
 
 #### 4. Чек-лист приёмки
 
@@ -213,20 +235,19 @@ SMTP Рег.ру для клиентов
 2. Каталог, карточка, скачивание документа, список запроса.
 3. Заявка сохраняется в админке WP.
 4. Письмо о заявке приходит (не только в «Заявках»).
-5. Next на Selectel по-прежнему открывается по IP / sslip, данные
-   Postgres не затронуты.
 
 #### 5. Порядок работ
 
-1. ~~Фикс STARTTLS/SSL в `mail.php`~~ — сделано: `KHAN_HIM_SMTP_SECURE`
-   (`tls` / `ssl` / пусто), локально `SMTP_SECURE` в `wordpress/.env`.
-2. Заказ/оплата хостинга Рег.ру, создание сайта `smoke52.ru`.
-3. Смена DNS на хостинговые (или A+MX вручную), ожидание делегирования.
-4. Установка WP, заливка темы и плагина, HTTPS, сид/дамп.
-5. Ящик `noreply@…`, константы SMTP в `wp-config.php` (включая
-   `KHAN_HIM_SMTP_SECURE=tls`), тест заявки.
-6. Обновить [`DOMAIN.md`](./DOMAIN.md): `smoke52.ru` → хостинг Рег.ру;
-   тест Next — IP/sslip.
+1. ~~Фикс STARTTLS/SSL в `mail.php`~~ — сделано: `KHAN_HIM_SMTP_SECURE`.
+2. Локально: `cd wordpress && ./scripts/pack-release-a.sh`.
+3. Заказ/оплата хостинга Рег.ру, создание сайта `smoke52.ru`.
+4. Смена DNS на хостинговые (или A+MX вручную), ожидание делегирования.
+5. Установка чистого WP, HTTPS (Let's Encrypt в панели), zip темы/плагина,
+   сид (CLI или руками).
+6. Ящик `noreply@…`, константы SMTP в `wp-config.php` (сниппет из
+   `pack-release-a` или `print-wp-config-smtp.sh`), тест заявки.
+7. Документация домена/почты — актуальные разделы [`DOMAIN.md`](./DOMAIN.md)
+   и [`MAIL.md`](./MAIL.md); Selectel VPS/SES помечены OUTDATED.
 
 ## Запуск
 
@@ -278,15 +299,20 @@ pnpm dev                                # http://localhost:3000  и  /admin
 Переменные окружения описаны в `.env.example`. Локально письма ловит Mailpit:
 SMTP на `127.0.0.1:1025`, веб-интерфейс на [http://127.0.0.1:8025](http://127.0.0.1:8025).
 
-## Развёртывание на VPS
+## Развёртывание на VPS (сборка Next.js)
+
+> **OUTDATED для публичного теста.** Актуальный показ — WordPress на
+> Рег.ру (`https://smoke52.ru`). Ниже и в [`DEPLOY.md`](./DEPLOY.md) —
+> как поднять **сборку Next.js + Payload** на VPS, если снова понадобится.
 
 Минимальные требования: 2 ГБ ОЗУ, Docker и Docker Compose.
 Домен нужен только для HTTPS; для первого теста хватает IP
 (`docker-compose.vps-ip.yml`).
 
-**Подробная инструкция (Selectel, Caddy, SMTP/Nodemailer):** [`DEPLOY.md`](./DEPLOY.md).
-Домен теста `smoke52.ru`: [`DOMAIN.md`](./DOMAIN.md).
-Почта теста (почтовый сервис Selectel): [`MAIL.md`](./MAIL.md).
+**Подробная инструкция (Selectel, Caddy, SMTP/Nodemailer):** [`DEPLOY.md`](./DEPLOY.md)
+(OUTDATED для текущего теста).
+Домен `smoke52.ru`: [`DOMAIN.md`](./DOMAIN.md).
+Почта: [`MAIL.md`](./MAIL.md) (актуально Рег.ру; Selectel SES — OUTDATED).
 
 Кратко:
 
@@ -332,10 +358,14 @@ workaround в `Caddyfile.ip` — иначе на plain `http://IP` Payload не
 | Vercel Hobby + Neon Free + Vercel Blob | деплой за минуты, без настройки сервера | бесплатный тариф Vercel формально только для некоммерческого использования; из российских сетей открывается нестабильно, проверять заранее с сети заказчика; хранение файлов устроено не так, как в проде |
 | Локальный запуск и показ экрана на созвоне | совсем бесплатно, без рисков | заказчик не может сам потыкать админку |
 
-**Решение:** прототип собирается в Docker Compose, который одинаково
-запускается локально и на VPS. Тестовый деплой планируется на **Selectel**
-(см. [`DEPLOY.md`](./DEPLOY.md)). Запасной вариант — локальный запуск с
-показом экрана. Vercel не используем.
+**Решение (актуально):** публичный тестовый контур — **WordPress на
+хостинге Рег.ру**, домен `smoke52.ru`. Локально WordPress — Compose в
+`wordpress/`. Сборка Next.js по-прежнему поднимается локально и (при
+нужде) на VPS по [`DEPLOY.md`](./DEPLOY.md) — OUTDATED для показа.
+Vercel не используем.
+
+**OUTDATED:** «тестовый деплой планируется на Selectel» — заменено
+контуром WordPress на Рег.ру.
 
 ## Варианты прода
 
@@ -350,40 +380,43 @@ workaround в `Caddyfile.ip` — иначе на plain `http://IP` Payload не
 
 ## Решения по инфраструктуре
 
-- Развёртывание: `docker-compose.yml` (локально),
-  `docker-compose.vps-ip.yml` (VPS по IP, HTTP),
-  `docker-compose.vps.yml` (VPS с доменом и HTTPS).
-- Тестовый деплой: Selectel VPS; пошагово — [`DEPLOY.md`](./DEPLOY.md).
-- Тестовый домен: **smoke52.ru**, регистратор Рег.ру. Сейчас для Next.js
-  на VPS: DNS `ns1.reg.ru` / `ns2.reg.ru`, A → IP Selectel
-  ([`DOMAIN.md`](./DOMAIN.md)). План для WordPress: тот же домен
-  перевести на виртуальный хостинг Рег.ру (см. раздел выше); Next —
-  по IP / sslip.
-- HTTPS (Next на VPS): Caddy + Let's Encrypt по `DOMAIN` (свой домен или
-  `*.sslip.io`); без домена — HTTP на :80 и demo-workaround в
-  `Caddyfile.ip` для админки.
-- Тестовая почта Next на VPS: почтовый сервис Selectel, SMTP
-  `smtp.mail.selcloud.ru:1126`, отправитель на `smoke52.ru`
-  ([`MAIL.md`](./MAIL.md)).
-- Почта WordPress на Рег.ру (план): ящик на `smoke52.ru` + SMTP
+- **Тестовый контур (актуально):** WordPress на виртуальном хостинге
+  Рег.ру, домен **smoke52.ru** (`https://smoke52.ru`). Сценарий демо A:
+  zip темы/плагина + сид (`wordpress/scripts/pack-release-a.sh`).
+  Подробно — раздел «WordPress на хостинге Рег.ру» выше;
+  [`DOMAIN.md`](./DOMAIN.md), [`MAIL.md`](./MAIL.md).
+- **Почта теста (актуально):** ящик на `smoke52.ru` + SMTP
   `mail.hosting.reg.ru:587` (или 465), константы `KHAN_HIM_SMTP_*` в
-  `wp-config.php`; шифрование — `KHAN_HIM_SMTP_SECURE` (`tls` / `ssl`).
-- Почта в коде Next: `@payloadcms/email-nodemailer`. Порт зависит от
-  провайдера (Selectel — 1126, Яндекс и Mail.ru — 587); разбор в
-  `DEPLOY.md` и [`MAIL.md`](./MAIL.md).
-- Файлы по умолчанию на диске (том `uploads`); S3 — опционально через
-  переменные `S3_*` (см. `.env.example`).
-- Минимальный VPS текущей сборки: 2 ГБ ОЗУ.
-- Вторая сборка: WordPress в `wordpress/`, локально свой Compose; показ
-  на виртуальном хостинге Рег.ру + `smoke52.ru` — по плану в разделе
-  «Вторая реализация». С локальным Next-стеком одновременно не
-  запускается.
+  `wp-config.php`; `KHAN_HIM_SMTP_SECURE` = `tls` / `ssl`.
+- **HTTPS теста (актуально):** Let's Encrypt в панели хостинга Рег.ру;
+  в WP оба URL на `https://smoke52.ru`.
+- Локально WordPress: Compose в `wordpress/` (взаимоисключающе с
+  локальным Next-стеком на тех же портах).
+- Развёртывание Next (код в корне): `docker-compose.yml` (локально),
+  `docker-compose.vps-ip.yml`, `docker-compose.vps.yml`.
+- Почта в коде Next: `@payloadcms/email-nodemailer`.
+- Файлы Next по умолчанию на диске (том `uploads`); S3 — опционально
+  через `S3_*` (см. `.env.example`).
+- Минимальный VPS для сборки Next: 2 ГБ ОЗУ.
+
+### OUTDATED (Selectel VPS и SES)
+
+Сохранено для истории; для публичного теста не применять:
+
+- Тестовый деплой Next на Selectel VPS — [`DEPLOY.md`](./DEPLOY.md).
+- Домен `smoke52.ru` A → IP Selectel, Caddy + Let's Encrypt —
+  OUTDATED-часть [`DOMAIN.md`](./DOMAIN.md).
+- Почтовый сервис Selectel `smtp.mail.selcloud.ru:1126` —
+  OUTDATED-часть [`MAIL.md`](./MAIL.md).
+- HTTPS Next на VPS: Caddy по `DOMAIN` / `*.sslip.io`; без домена —
+  HTTP и workaround в `Caddyfile.ip`.
 
 ## Открытые вопросы
 
-- Какой тариф Selectel (или другого провайдера) для прода Next (не меньше
-  2 ГБ ОЗУ)?
-- Тариф виртуального хостинга Рег.ру для WordPress (PHP ≥ 8.2, MySQL)?
+- Какой тариф VPS (Selectel или другой) для прода Next, если выберут
+  эту сборку (не меньше 2 ГБ ОЗУ)?
+- Тариф виртуального хостинга Рег.ру для WordPress (PHP ≥ 8.2, MySQL) —
+  зафиксировать выбранный.
 - Есть ли у заказчика домен и хостинг или регистрируем новые?
 - С какого ящика у заказчика уходят письма о заявках: почта на своём
   домене или отдельный ящик?

@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "wordpress/wp-content/plugins/khan-him/assets/admin.js"
+        ],
+        "createdAt": "2026-11-10T00:02:19.925Z",
+        "reason": "false positive: img src is set at runtime from WordPress media library attachment.url, not a static empty src"
+      }
+    ]
+  }
+}

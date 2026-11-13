@@ -1,18 +1,104 @@
-# Почта тестового контура (Selectel)
+# Почта тестового контура
+
+**Актуально:** почта WordPress на хостинге Рег.ру — ящик на `smoke52.ru`
+и SMTP `mail.hosting.reg.ru`. Это **единственный** публичный тестовый
+контур. Домен: [`DOMAIN.md`](./DOMAIN.md). План выкладки: [`HOSTING.md`](./HOSTING.md).
+
+Почтовый сервис Selectel (для Next.js на VPS) — **OUTDATED**, текст в
+конце файла сохранён как справочник.
+
+---
+
+## Актуально: почта Рег.ру для WordPress
+
+```
+Форма на сайте (WP)
+    → заявка в админке WP
+    → wp_mail + PHPMailer (плагин khan-him)
+    → mail.hosting.reg.ru:587 (STARTTLS)
+    → ящик получателя заявок
+```
+
+### 1. DNS и почтовый домен
+
+При DNS `ns1.hosting.reg.ru` / `ns2.hosting.reg.ru` записи MX/SPF для
+почты хостинга часто создаются сами
+([справка](https://help.reg.ru/support/hosting/nastroyka-pochty-regru/nastroyka-pochty-i-pochtovykh-kliyentovv/nastroyka-pochty-na-hostingee)).
+
+Если зона на `ns1.reg.ru` / `ns2.reg.ru` — вручную MX на
+`mx1.hosting.reg.ru` / `mx2.hosting.reg.ru`, SPF с
+`include:_spf.hosting.reg.ru`, A для `mail`.
+
+Не оставляйте на домене SPF Selectel (`spf.mail.selcloud.ru`) как
+основной для текущего контура — смешивать с почтой хостинга без нужды
+нельзя.
+
+### 2. Ящик
+
+Создайте ящик, например `noreply@smoke52.ru` (логин = полный адрес).
+
+SMTP для клиентов
+([справка](https://help.reg.ru/support/hosting/nastroyka-pochty-regru/nastroyka-pochty-i-pochtovykh-kliyentovv/nastroyka-pochtovykh-kliyentovv)):
+
+| Параметр | Значение |
+|---|---|
+| Хост | `mail.hosting.reg.ru` |
+| Порт | **587** (STARTTLS) или **465** (SSL) |
+| Логин | полный email ящика |
+| Пароль | пароль ящика |
+
+### 3. Константы в `wp-config.php`
+
+Плагин читает `KHAN_HIM_SMTP_*`. Шифрование — `KHAN_HIM_SMTP_SECURE`
+(`tls` для 587, `ssl` для 465). Сниппет:
+
+```php
+define('KHAN_HIM_SMTP_HOST', 'mail.hosting.reg.ru');
+define('KHAN_HIM_SMTP_PORT', 587);
+define('KHAN_HIM_SMTP_USER', 'noreply@smoke52.ru');
+define('KHAN_HIM_SMTP_PASS', 'пароль-ящика');
+define('KHAN_HIM_SMTP_SECURE', 'tls');
+define('KHAN_HIM_SMTP_FROM', 'Хан-Хим <noreply@smoke52.ru>');
+define('KHAN_HIM_REQUESTS_FALLBACK_EMAIL', 'ваш-ящик@gmail.com');
+```
+
+Локально те же ключи — `SMTP_*` в `wordpress/.env` (см.
+`wordpress/.env.example`). Печать фрагмента:
+`wordpress/scripts/print-wp-config-smtp.sh`.
+
+### 4. Куда уходят заявки
+
+1. Настройки Хан-Хим в админке WP → адреса для заявок.
+2. Если пусто — `KHAN_HIM_REQUESTS_FALLBACK_EMAIL`.
+
+`Reply-To` — email посетителя, если указан. Ошибка SMTP заявку не
+удаляет.
+
+### 5. Проверка
+
+Тестовая заявка с сайта → запись в «Заявках» + письмо (смотреть спам).
+
+---
+
+# OUTDATED: почтовый сервис Selectel (Next.js на VPS)
+
+> **OUTDATED.** Ниже — исходящий SMTP Selectel для приложения Next.js +
+> Payload на VPS. Публичный тест так больше не шлёт почту. Текст
+> сохранён как справочник. Актуальная почта теста — раздел выше (Рег.ру).
 
 Пошаговое подключение **почтового сервиса Selectel** к домену
 **smoke52.ru**, чтобы сайт на VPS отправлял письма о заявках.
 
-Сервис уже заведён в панели Selectel для тестового деплоя. Эта
-инструкция доводит его до рабочей отправки с `noreply@smoke52.ru`.
-Домен сайта — в [`DOMAIN.md`](./DOMAIN.md). Как устроен Nodemailer в
+Сервис заводился в панели Selectel для тестового деплоя. Инструкция
+доводила отправку с `noreply@smoke52.ru`. Домен сайта — в
+[`DOMAIN.md`](./DOMAIN.md) (OUTDATED-часть про VPS). Nodemailer в
 приложении — в [`DEPLOY.md`](./DEPLOY.md), раздел про SMTP.
 
 Документация Selectel:
 [подключить почтовый сервис](https://docs.selectel.ru/email-service/connect-email-service/),
 [ошибки SMTP](https://docs.selectel.ru/email-service/smtp-errors/).
 
-## Что это за сервис
+## OUTDATED: Что это за сервис
 
 Почтовый сервис Selectel — исходящий SMTP. Приложение само почту не
 принимает: контейнер `app` подключается к `smtp.mail.selcloud.ru` и
@@ -45,7 +131,7 @@
 
 ---
 
-## 0. Где взять логин
+## OUTDATED 0. Где взять логин
 
 1. Панель Selectel → верхнее меню **Продукты** → **Почтовый сервис**.
 2. Если ресурса ещё нет: **Создать ресурс**, имя любое (на отправку
@@ -63,7 +149,7 @@
 
 ---
 
-## 1. TXT: домен ваш
+## OUTDATED 1. TXT: домен ваш
 
 Пока этой записи нет, домен к ресурсу не добавится.
 
@@ -71,7 +157,7 @@
 зоной** → **Изменить** → **Добавить запись**.
 
 DNS-серверы зоны — `ns1.reg.ru` и `ns2.reg.ru`
-(подробнее в [`DOMAIN.md`](./DOMAIN.md)).
+(подробнее в OUTDATED-части [`DOMAIN.md`](./DOMAIN.md)).
 
 | Поле | Значение |
 |---|---|
@@ -95,7 +181,7 @@ dig +short TXT smoke52.ru
 
 ---
 
-## 2. Привязать домен к ресурсу
+## OUTDATED 2. Привязать домен к ресурсу
 
 1. **Почтовый сервис** → ваш ресурс → **Информация**.
 2. Блок **Привязанные домены** → **Добавить**.
@@ -107,7 +193,7 @@ dig +short TXT smoke52.ru
 
 ---
 
-## 3. DKIM, DMARC, SPF
+## OUTDATED 3. DKIM, DMARC, SPF
 
 Три записи в той же зоне Рег.ру. В Subdomain — относительное имя,
 без `.smoke52.ru` на конце.
@@ -177,7 +263,7 @@ dig +short TXT smoke52.ru
 
 ---
 
-## 4. SMTP в `.env`
+## OUTDATED 4. SMTP в `.env`
 
 На сервере, `/opt/khan-him/.env`. Порт **1126**: в
 `src/lib/email.ts` у транспорта `secure: false`, шифрование
@@ -214,7 +300,7 @@ docker compose -f docker-compose.vps.yml up -d --force-recreate app
 Пока сайт ещё на стеке по IP, тот же `--force-recreate app` с
 `-f docker-compose.vps-ip.yml`. Почта от режима HTTP/HTTPS не
 зависит. От режима зависит только ссылка в письме: она берётся из
-`SERVER_URL` ([`DOMAIN.md`](./DOMAIN.md)).
+`SERVER_URL`.
 
 Проверьте, что внутри контейнера именно эти значения (пароль в
 вывод `printenv` попадёт — не оставляйте его в общем логе):
@@ -231,7 +317,7 @@ timeout 5 bash -c 'cat < /dev/null > /dev/tcp/smtp.mail.selcloud.ru/1126' && ech
 
 ---
 
-## 5. Куда уходят заявки с сайта
+## OUTDATED 5. Куда уходят заявки с сайта (Next)
 
 Два адресата, по очереди (`src/lib/requestEmail.ts`):
 
@@ -250,7 +336,7 @@ timeout 5 bash -c 'cat < /dev/null > /dev/tcp/smtp.mail.selcloud.ru/1126' && ech
 
 ---
 
-## 6. Проверка
+## OUTDATED 6. Проверка (Next на VPS)
 
 1. Домен `smoke52.ru` есть в **Привязанных доменах**, статусы
    DNS в карточке без ошибки.
@@ -278,7 +364,7 @@ docker compose -f docker-compose.vps.yml logs app | grep -iE 'mail|smtp'
 
 ---
 
-## Ошибки SMTP Selectel
+## OUTDATED: Ошибки SMTP Selectel
 
 | Ответ сервера | Смысл |
 |---|---|

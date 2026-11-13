@@ -1,0 +1,5023 @@
+[
+  {
+    "command": "file.new",
+    "params": {
+      "name": "khan-him-home"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Home / Desktop",
+      "parent": null,
+      "props": {
+        "layout": "vertical",
+        "gap": 0,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "fill": "#eef2f5",
+        "width": 1440
+      },
+      "select": false,
+      "width": 1440,
+      "x": 40,
+      "y": 40
+    },
+    "as": "Home / Desktop"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Home / Desktop"
+      },
+      "width": 1440,
+      "sizingH": "fixed",
+      "sizingV": "hug",
+      "fill": "#eef2f5"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Header",
+      "parent": {
+        "$ref": "Home / Desktop"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 0,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "#eef2f5"
+      },
+      "select": false
+    },
+    "as": "Header"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Header"
+      },
+      "stroke": "#c4ced8",
+      "strokeWeight": 1,
+      "strokeSides": [
+        false,
+        false,
+        true,
+        false
+      ]
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Header / Inner",
+      "parent": {
+        "$ref": "Header"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 20,
+        "padding": [
+          16,
+          144,
+          16,
+          144
+        ],
+        "mainAlign": "spaceBetween",
+        "crossAlign": "center",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Header / Inner"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Brand",
+      "text": "Хан-Хим",
+      "parent": {
+        "$ref": "Header / Inner"
+      },
+      "props": {
+        "fontFamily": "Montserrat",
+        "fontStyle": "SemiBold",
+        "fontSize": 22,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "letterSpacing": "-2%"
+      },
+      "select": false
+    },
+    "as": "Brand"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Brand"
+      },
+      "sizingH": "hug",
+      "sizingV": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Nav",
+      "parent": {
+        "$ref": "Header / Inner"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 20,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "center",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Nav"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Nav / Каталог",
+      "text": "Каталог",
+      "parent": {
+        "$ref": "Nav"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 15,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Nav / Каталог"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Nav / Каталог"
+      },
+      "sizingH": "hug",
+      "sizingV": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Nav / О компании",
+      "text": "О компании",
+      "parent": {
+        "$ref": "Nav"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 15,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Nav / О компании"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Nav / О компании"
+      },
+      "sizingH": "hug",
+      "sizingV": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Nav / Контакты",
+      "text": "Контакты",
+      "parent": {
+        "$ref": "Nav"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 15,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Nav / Контакты"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Nav / Контакты"
+      },
+      "sizingH": "hug",
+      "sizingV": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Nav / Реквизиты",
+      "text": "Реквизиты",
+      "parent": {
+        "$ref": "Nav"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 15,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Nav / Реквизиты"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Nav / Реквизиты"
+      },
+      "sizingH": "hug",
+      "sizingV": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Search",
+      "parent": {
+        "$ref": "Header / Inner"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 260,
+        "fill": "none"
+      },
+      "select": false,
+      "width": 260
+    },
+    "as": "Search"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Search"
+      },
+      "width": 260,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Search / Field",
+      "parent": {
+        "$ref": "Search"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": [
+          8,
+          12,
+          8,
+          12
+        ],
+        "mainAlign": "min",
+        "crossAlign": "center",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "#ffffff",
+        "stroke": "#c4ced8",
+        "strokeWeight": 1
+      },
+      "select": false
+    },
+    "as": "Search / Field"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Search / Placeholder",
+      "text": "Поиск по каталогу",
+      "parent": {
+        "$ref": "Search / Field"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 14,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Search / Placeholder"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Search / Placeholder"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Search / Btn",
+      "parent": {
+        "$ref": "Search"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": [
+          8,
+          14,
+          8,
+          14
+        ],
+        "mainAlign": "min",
+        "crossAlign": "center",
+        "sizingH": "hug",
+        "sizingV": "fill",
+        "fill": "#0e3d72"
+      },
+      "select": false
+    },
+    "as": "Search / Btn"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Search / Btn Label",
+      "text": "Найти",
+      "parent": {
+        "$ref": "Search / Btn"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#ffffff",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Search / Btn Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Search / Btn Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Header / Actions",
+      "parent": {
+        "$ref": "Header / Inner"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 12,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "center",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Header / Actions"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Phone",
+      "text": "+7 (900) 000-00-00",
+      "parent": {
+        "$ref": "Header / Actions"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 14,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Phone"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Phone"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Btn / Quick",
+      "parent": {
+        "$ref": "Header / Actions"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": [
+          8,
+          12,
+          8,
+          12
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "stroke": "#0e3d72",
+        "strokeWeight": 1,
+        "cornerRadius": 2,
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Btn / Quick"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Btn / Quick"
+      },
+      "fill": "none"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Btn / Quick Label",
+      "text": "Быстрая заявка",
+      "parent": {
+        "$ref": "Btn / Quick"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Btn / Quick Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Btn / Quick Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Request Counter",
+      "parent": {
+        "$ref": "Header / Actions"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": [
+          8,
+          10,
+          8,
+          10
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "fill": "#e2e8ee",
+        "stroke": "#c4ced8",
+        "strokeWeight": 1,
+        "cornerRadius": 2
+      },
+      "select": false
+    },
+    "as": "Request Counter"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Request Counter Label",
+      "text": "Запрос · 0",
+      "parent": {
+        "$ref": "Request Counter"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Request Counter Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Request Counter Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Hero",
+      "parent": {
+        "$ref": "Home / Desktop"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 0,
+        "padding": [
+          96,
+          144,
+          80,
+          144
+        ],
+        "mainAlign": "max",
+        "crossAlign": "min",
+        "sizingH": "fill",
+        "sizingV": "fixed",
+        "fill": "#0a1624",
+        "height": 560
+      },
+      "select": false,
+      "height": 560
+    },
+    "as": "Hero"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Hero"
+      },
+      "height": 560,
+      "sizingV": "fixed",
+      "fills": {
+        "type": "linearGradient",
+        "stops": [
+          "#0a1624",
+          "#1a3348",
+          "#0a1624"
+        ]
+      },
+      "mainAlign": "max"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Hero / Content",
+      "parent": {
+        "$ref": "Hero"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 20,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 720,
+        "fill": "none"
+      },
+      "select": false,
+      "width": 720
+    },
+    "as": "Hero / Content"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Hero / Content"
+      },
+      "width": 720,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Hero / Title",
+      "text": "Хан-Хим",
+      "parent": {
+        "$ref": "Hero / Content"
+      },
+      "props": {
+        "fontFamily": "Montserrat",
+        "fontStyle": "SemiBold",
+        "fontSize": 88,
+        "fill": "#ffffff",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 720,
+        "letterSpacing": "-3%",
+        "lineHeight": "92%"
+      },
+      "select": false
+    },
+    "as": "Hero / Title"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Hero / Lead",
+      "text": "Оптовые поставки химического сырья. Каталог без цен — оставьте заявку, менеджер свяжется с вами.",
+      "parent": {
+        "$ref": "Hero / Content"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 20,
+        "fill": "#d9e2ea",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 560,
+        "lineHeight": "150%"
+      },
+      "select": false
+    },
+    "as": "Hero / Lead"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Hero / Lead"
+      },
+      "width": 560,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Hero / CTAs",
+      "parent": {
+        "$ref": "Hero / Content"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 12,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Hero / CTAs"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Hero / CTA Primary",
+      "parent": {
+        "$ref": "Hero / CTAs"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": [
+          14,
+          20,
+          14,
+          20
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "fill": "#ffffff",
+        "cornerRadius": 2
+      },
+      "select": false
+    },
+    "as": "Hero / CTA Primary"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Hero / CTA Primary Label",
+      "text": "Открыть каталог",
+      "parent": {
+        "$ref": "Hero / CTA Primary"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 15,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Hero / CTA Primary Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Hero / CTA Primary Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Hero / CTA Ghost",
+      "parent": {
+        "$ref": "Hero / CTAs"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": [
+          14,
+          20,
+          14,
+          20
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "stroke": "#ffffff99",
+        "strokeWeight": 1,
+        "cornerRadius": 2,
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Hero / CTA Ghost"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Hero / CTA Ghost"
+      },
+      "fill": "none",
+      "stroke": "#ffffff99"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Hero / CTA Ghost Label",
+      "text": "Оставить заявку",
+      "parent": {
+        "$ref": "Hero / CTA Ghost"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 15,
+        "fill": "#ffffff",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Hero / CTA Ghost Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Hero / CTA Ghost Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Categories",
+      "parent": {
+        "$ref": "Home / Desktop"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 24,
+        "padding": [
+          56,
+          144,
+          56,
+          144
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "#eef2f5"
+      },
+      "select": false
+    },
+    "as": "Categories"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Categories / Title",
+      "text": "Категории",
+      "parent": {
+        "$ref": "Categories"
+      },
+      "props": {
+        "fontFamily": "Montserrat",
+        "fontStyle": "SemiBold",
+        "fontSize": 28,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "letterSpacing": "-2%"
+      },
+      "select": false
+    },
+    "as": "Categories / Title"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Categories / Title"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Categories / List",
+      "parent": {
+        "$ref": "Categories"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 24,
+        "padding": [
+          24,
+          0,
+          0,
+          0
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Categories / List"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Categories / List"
+      },
+      "wrap": true,
+      "stroke": "#c4ced8",
+      "strokeWeight": 1,
+      "strokeSides": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "paddingTop": 24
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Cat / Кислоты",
+      "text": "Кислоты",
+      "parent": {
+        "$ref": "Categories / List"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 17,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Cat / Кислоты"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Cat / Кислоты"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Cat / Щёлочи и соли",
+      "text": "Щёлочи и соли",
+      "parent": {
+        "$ref": "Categories / List"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 17,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Cat / Щёлочи и соли"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Cat / Щёлочи и соли"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Cat / Растворители",
+      "text": "Растворители",
+      "parent": {
+        "$ref": "Categories / List"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 17,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Cat / Растворители"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Cat / Растворители"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Cat / ПАВ",
+      "text": "ПАВ",
+      "parent": {
+        "$ref": "Categories / List"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 17,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Cat / ПАВ"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Cat / ПАВ"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Cat / Гликоли и спирты",
+      "text": "Гликоли и спирты",
+      "parent": {
+        "$ref": "Categories / List"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 17,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Cat / Гликоли и спирты"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Cat / Гликоли и спирты"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Cat / Сорбенты и катализаторы",
+      "text": "Сорбенты и катализаторы",
+      "parent": {
+        "$ref": "Categories / List"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 17,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Cat / Сорбенты и катализаторы"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Cat / Сорбенты и катализаторы"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Products",
+      "parent": {
+        "$ref": "Home / Desktop"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 32,
+        "padding": [
+          56,
+          144,
+          56,
+          144
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "#e8eef3"
+      },
+      "select": false
+    },
+    "as": "Products"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Products"
+      },
+      "stroke": "#c4ced8",
+      "strokeWeight": 1,
+      "strokeSides": [
+        true,
+        false,
+        true,
+        false
+      ]
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Products / Head",
+      "parent": {
+        "$ref": "Products"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": 0,
+        "mainAlign": "spaceBetween",
+        "crossAlign": "max",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Products / Head"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Products / Title",
+      "text": "Товары",
+      "parent": {
+        "$ref": "Products / Head"
+      },
+      "props": {
+        "fontFamily": "Montserrat",
+        "fontStyle": "SemiBold",
+        "fontSize": 28,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "letterSpacing": "-2%"
+      },
+      "select": false
+    },
+    "as": "Products / Title"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Products / Title"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Products / All",
+      "text": "Весь каталог",
+      "parent": {
+        "$ref": "Products / Head"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 14,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Products / All"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Products / All"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Products / Grid",
+      "parent": {
+        "$ref": "Products"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 24,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Products / Grid"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Products / Grid"
+      },
+      "wrap": true,
+      "crossGap": 40,
+      "gap": 24
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 1",
+      "parent": {
+        "$ref": "Products / Grid"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 12,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270,
+        "fill": "none"
+      },
+      "select": false,
+      "width": 270
+    },
+    "as": "Card / 1"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 1"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 1 / Image",
+      "parent": {
+        "$ref": "Card / 1"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 0,
+        "padding": 0,
+        "mainAlign": "center",
+        "crossAlign": "center",
+        "sizingH": "fill",
+        "sizingV": "fixed",
+        "fill": "#d5dee7",
+        "stroke": "#c4ced8",
+        "strokeWeight": 1,
+        "height": 202
+      },
+      "select": false,
+      "height": 202
+    },
+    "as": "Card / 1 / Image"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 1 / Image"
+      },
+      "height": 202,
+      "sizingV": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 1 / Image Label",
+      "text": "Нет фото",
+      "parent": {
+        "$ref": "Card / 1 / Image"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 1 / Image Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 1 / Image Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 1 / Name",
+      "text": "Борная кислота техническая",
+      "parent": {
+        "$ref": "Card / 1"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 15,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270,
+        "lineHeight": "130%"
+      },
+      "select": false
+    },
+    "as": "Card / 1 / Name"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 1 / Name"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 1 / Formula",
+      "text": "H3BO3",
+      "parent": {
+        "$ref": "Card / 1"
+      },
+      "props": {
+        "fontFamily": "JetBrainsMono Nerd Font",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 1 / Formula"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 1 / Formula"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 1 / Pack",
+      "text": "Фасовка: мешки 25 кг",
+      "parent": {
+        "$ref": "Card / 1"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270
+      },
+      "select": false
+    },
+    "as": "Card / 1 / Pack"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 1 / Pack"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 1 / Avail",
+      "text": "На складе",
+      "parent": {
+        "$ref": "Card / 1"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#2f6b4f",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 1 / Avail"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 1 / Avail"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 1 / Add",
+      "parent": {
+        "$ref": "Card / 1"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "stroke": "#0e3d72",
+        "strokeWeight": 1,
+        "cornerRadius": 2,
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Card / 1 / Add"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 1 / Add"
+      },
+      "fill": "none"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 1 / Add Label",
+      "text": "В запрос",
+      "parent": {
+        "$ref": "Card / 1 / Add"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 1 / Add Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 1 / Add Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 2",
+      "parent": {
+        "$ref": "Products / Grid"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 12,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270,
+        "fill": "none"
+      },
+      "select": false,
+      "width": 270
+    },
+    "as": "Card / 2"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 2"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 2 / Image",
+      "parent": {
+        "$ref": "Card / 2"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 0,
+        "padding": 0,
+        "mainAlign": "center",
+        "crossAlign": "center",
+        "sizingH": "fill",
+        "sizingV": "fixed",
+        "fill": "#d5dee7",
+        "stroke": "#c4ced8",
+        "strokeWeight": 1,
+        "height": 202
+      },
+      "select": false,
+      "height": 202
+    },
+    "as": "Card / 2 / Image"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 2 / Image"
+      },
+      "height": 202,
+      "sizingV": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 2 / Image Label",
+      "text": "Нет фото",
+      "parent": {
+        "$ref": "Card / 2 / Image"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 2 / Image Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 2 / Image Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 2 / Name",
+      "text": "Азотная кислота неконцентрированная",
+      "parent": {
+        "$ref": "Card / 2"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 15,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270,
+        "lineHeight": "130%"
+      },
+      "select": false
+    },
+    "as": "Card / 2 / Name"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 2 / Name"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 2 / Formula",
+      "text": "HNO3",
+      "parent": {
+        "$ref": "Card / 2"
+      },
+      "props": {
+        "fontFamily": "JetBrainsMono Nerd Font",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 2 / Formula"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 2 / Formula"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 2 / Pack",
+      "text": "Фасовка: канистры 28 кг",
+      "parent": {
+        "$ref": "Card / 2"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270
+      },
+      "select": false
+    },
+    "as": "Card / 2 / Pack"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 2 / Pack"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 2 / Avail",
+      "text": "На складе",
+      "parent": {
+        "$ref": "Card / 2"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#2f6b4f",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 2 / Avail"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 2 / Avail"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 2 / Add",
+      "parent": {
+        "$ref": "Card / 2"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "stroke": "#0e3d72",
+        "strokeWeight": 1,
+        "cornerRadius": 2,
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Card / 2 / Add"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 2 / Add"
+      },
+      "fill": "none"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 2 / Add Label",
+      "text": "В запрос",
+      "parent": {
+        "$ref": "Card / 2 / Add"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 2 / Add Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 2 / Add Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 3",
+      "parent": {
+        "$ref": "Products / Grid"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 12,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270,
+        "fill": "none"
+      },
+      "select": false,
+      "width": 270
+    },
+    "as": "Card / 3"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 3"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 3 / Image",
+      "parent": {
+        "$ref": "Card / 3"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 0,
+        "padding": 0,
+        "mainAlign": "center",
+        "crossAlign": "center",
+        "sizingH": "fill",
+        "sizingV": "fixed",
+        "fill": "#d5dee7",
+        "stroke": "#c4ced8",
+        "strokeWeight": 1,
+        "height": 202
+      },
+      "select": false,
+      "height": 202
+    },
+    "as": "Card / 3 / Image"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 3 / Image"
+      },
+      "height": 202,
+      "sizingV": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 3 / Image Label",
+      "text": "Нет фото",
+      "parent": {
+        "$ref": "Card / 3 / Image"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 3 / Image Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 3 / Image Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 3 / Name",
+      "text": "Ортофосфорная кислота 85%",
+      "parent": {
+        "$ref": "Card / 3"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 15,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270,
+        "lineHeight": "130%"
+      },
+      "select": false
+    },
+    "as": "Card / 3 / Name"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 3 / Name"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 3 / Formula",
+      "text": "H3PO4",
+      "parent": {
+        "$ref": "Card / 3"
+      },
+      "props": {
+        "fontFamily": "JetBrainsMono Nerd Font",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 3 / Formula"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 3 / Formula"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 3 / Pack",
+      "text": "Фасовка: канистры / кубы",
+      "parent": {
+        "$ref": "Card / 3"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270
+      },
+      "select": false
+    },
+    "as": "Card / 3 / Pack"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 3 / Pack"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 3 / Avail",
+      "text": "Под заказ",
+      "parent": {
+        "$ref": "Card / 3"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 3 / Avail"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 3 / Avail"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 3 / Add",
+      "parent": {
+        "$ref": "Card / 3"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "stroke": "#0e3d72",
+        "strokeWeight": 1,
+        "cornerRadius": 2,
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Card / 3 / Add"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 3 / Add"
+      },
+      "fill": "none"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 3 / Add Label",
+      "text": "В запрос",
+      "parent": {
+        "$ref": "Card / 3 / Add"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 3 / Add Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 3 / Add Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 4",
+      "parent": {
+        "$ref": "Products / Grid"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 12,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270,
+        "fill": "none"
+      },
+      "select": false,
+      "width": 270
+    },
+    "as": "Card / 4"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 4"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 4 / Image",
+      "parent": {
+        "$ref": "Card / 4"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 0,
+        "padding": 0,
+        "mainAlign": "center",
+        "crossAlign": "center",
+        "sizingH": "fill",
+        "sizingV": "fixed",
+        "fill": "#d5dee7",
+        "stroke": "#c4ced8",
+        "strokeWeight": 1,
+        "height": 202
+      },
+      "select": false,
+      "height": 202
+    },
+    "as": "Card / 4 / Image"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 4 / Image"
+      },
+      "height": 202,
+      "sizingV": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 4 / Image Label",
+      "text": "Нет фото",
+      "parent": {
+        "$ref": "Card / 4 / Image"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 4 / Image Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 4 / Image Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 4 / Name",
+      "text": "Натрий едкий технический гранулированный",
+      "parent": {
+        "$ref": "Card / 4"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 15,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270,
+        "lineHeight": "130%"
+      },
+      "select": false
+    },
+    "as": "Card / 4 / Name"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 4 / Name"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 4 / Formula",
+      "text": "NaOH",
+      "parent": {
+        "$ref": "Card / 4"
+      },
+      "props": {
+        "fontFamily": "JetBrainsMono Nerd Font",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 4 / Formula"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 4 / Formula"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 4 / Pack",
+      "text": "Фасовка: мешки 25 кг",
+      "parent": {
+        "$ref": "Card / 4"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270
+      },
+      "select": false
+    },
+    "as": "Card / 4 / Pack"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 4 / Pack"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 4 / Avail",
+      "text": "На складе",
+      "parent": {
+        "$ref": "Card / 4"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#2f6b4f",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 4 / Avail"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 4 / Avail"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 4 / Add",
+      "parent": {
+        "$ref": "Card / 4"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "stroke": "#0e3d72",
+        "strokeWeight": 1,
+        "cornerRadius": 2,
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Card / 4 / Add"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 4 / Add"
+      },
+      "fill": "none"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 4 / Add Label",
+      "text": "В запрос",
+      "parent": {
+        "$ref": "Card / 4 / Add"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 4 / Add Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 4 / Add Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 5",
+      "parent": {
+        "$ref": "Products / Grid"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 12,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270,
+        "fill": "none"
+      },
+      "select": false,
+      "width": 270
+    },
+    "as": "Card / 5"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 5"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 5 / Image",
+      "parent": {
+        "$ref": "Card / 5"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 0,
+        "padding": 0,
+        "mainAlign": "center",
+        "crossAlign": "center",
+        "sizingH": "fill",
+        "sizingV": "fixed",
+        "fill": "#d5dee7",
+        "stroke": "#c4ced8",
+        "strokeWeight": 1,
+        "height": 202
+      },
+      "select": false,
+      "height": 202
+    },
+    "as": "Card / 5 / Image"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 5 / Image"
+      },
+      "height": 202,
+      "sizingV": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 5 / Image Label",
+      "text": "Нет фото",
+      "parent": {
+        "$ref": "Card / 5 / Image"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 5 / Image Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 5 / Image Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 5 / Name",
+      "text": "Сода кальцинированная",
+      "parent": {
+        "$ref": "Card / 5"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 15,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270,
+        "lineHeight": "130%"
+      },
+      "select": false
+    },
+    "as": "Card / 5 / Name"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 5 / Name"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 5 / Formula",
+      "text": "Na2CO3",
+      "parent": {
+        "$ref": "Card / 5"
+      },
+      "props": {
+        "fontFamily": "JetBrainsMono Nerd Font",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 5 / Formula"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 5 / Formula"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 5 / Pack",
+      "text": "Фасовка: мешки 25–50 кг",
+      "parent": {
+        "$ref": "Card / 5"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270
+      },
+      "select": false
+    },
+    "as": "Card / 5 / Pack"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 5 / Pack"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 5 / Avail",
+      "text": "На складе",
+      "parent": {
+        "$ref": "Card / 5"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#2f6b4f",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 5 / Avail"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 5 / Avail"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 5 / Add",
+      "parent": {
+        "$ref": "Card / 5"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "stroke": "#0e3d72",
+        "strokeWeight": 1,
+        "cornerRadius": 2,
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Card / 5 / Add"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 5 / Add"
+      },
+      "fill": "none"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 5 / Add Label",
+      "text": "В запрос",
+      "parent": {
+        "$ref": "Card / 5 / Add"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 5 / Add Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 5 / Add Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 6",
+      "parent": {
+        "$ref": "Products / Grid"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 12,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270,
+        "fill": "none"
+      },
+      "select": false,
+      "width": 270
+    },
+    "as": "Card / 6"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 6"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 6 / Image",
+      "parent": {
+        "$ref": "Card / 6"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 0,
+        "padding": 0,
+        "mainAlign": "center",
+        "crossAlign": "center",
+        "sizingH": "fill",
+        "sizingV": "fixed",
+        "fill": "#d5dee7",
+        "stroke": "#c4ced8",
+        "strokeWeight": 1,
+        "height": 202
+      },
+      "select": false,
+      "height": 202
+    },
+    "as": "Card / 6 / Image"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 6 / Image"
+      },
+      "height": 202,
+      "sizingV": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 6 / Image Label",
+      "text": "Нет фото",
+      "parent": {
+        "$ref": "Card / 6 / Image"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 6 / Image Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 6 / Image Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 6 / Name",
+      "text": "Этанол технический",
+      "parent": {
+        "$ref": "Card / 6"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 15,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270,
+        "lineHeight": "130%"
+      },
+      "select": false
+    },
+    "as": "Card / 6 / Name"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 6 / Name"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 6 / Formula",
+      "text": "C2H5OH",
+      "parent": {
+        "$ref": "Card / 6"
+      },
+      "props": {
+        "fontFamily": "JetBrainsMono Nerd Font",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 6 / Formula"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 6 / Formula"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 6 / Pack",
+      "text": "Фасовка: бочки 200 л",
+      "parent": {
+        "$ref": "Card / 6"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270
+      },
+      "select": false
+    },
+    "as": "Card / 6 / Pack"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 6 / Pack"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 6 / Avail",
+      "text": "На складе",
+      "parent": {
+        "$ref": "Card / 6"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#2f6b4f",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 6 / Avail"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 6 / Avail"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 6 / Add",
+      "parent": {
+        "$ref": "Card / 6"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "stroke": "#0e3d72",
+        "strokeWeight": 1,
+        "cornerRadius": 2,
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Card / 6 / Add"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 6 / Add"
+      },
+      "fill": "none"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 6 / Add Label",
+      "text": "В запрос",
+      "parent": {
+        "$ref": "Card / 6 / Add"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 6 / Add Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 6 / Add Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 7",
+      "parent": {
+        "$ref": "Products / Grid"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 12,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270,
+        "fill": "none"
+      },
+      "select": false,
+      "width": 270
+    },
+    "as": "Card / 7"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 7"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 7 / Image",
+      "parent": {
+        "$ref": "Card / 7"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 0,
+        "padding": 0,
+        "mainAlign": "center",
+        "crossAlign": "center",
+        "sizingH": "fill",
+        "sizingV": "fixed",
+        "fill": "#d5dee7",
+        "stroke": "#c4ced8",
+        "strokeWeight": 1,
+        "height": 202
+      },
+      "select": false,
+      "height": 202
+    },
+    "as": "Card / 7 / Image"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 7 / Image"
+      },
+      "height": 202,
+      "sizingV": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 7 / Image Label",
+      "text": "Нет фото",
+      "parent": {
+        "$ref": "Card / 7 / Image"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 7 / Image Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 7 / Image Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 7 / Name",
+      "text": "Неонол АФ 9-6",
+      "parent": {
+        "$ref": "Card / 7"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 15,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270,
+        "lineHeight": "130%"
+      },
+      "select": false
+    },
+    "as": "Card / 7 / Name"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 7 / Name"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 7 / Formula",
+      "text": "—",
+      "parent": {
+        "$ref": "Card / 7"
+      },
+      "props": {
+        "fontFamily": "JetBrainsMono Nerd Font",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 7 / Formula"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 7 / Formula"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 7 / Pack",
+      "text": "Фасовка: канистры 20 кг",
+      "parent": {
+        "$ref": "Card / 7"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270
+      },
+      "select": false
+    },
+    "as": "Card / 7 / Pack"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 7 / Pack"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 7 / Avail",
+      "text": "На складе",
+      "parent": {
+        "$ref": "Card / 7"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#2f6b4f",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 7 / Avail"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 7 / Avail"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 7 / Add",
+      "parent": {
+        "$ref": "Card / 7"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "stroke": "#0e3d72",
+        "strokeWeight": 1,
+        "cornerRadius": 2,
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Card / 7 / Add"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 7 / Add"
+      },
+      "fill": "none"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 7 / Add Label",
+      "text": "В запрос",
+      "parent": {
+        "$ref": "Card / 7 / Add"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 7 / Add Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 7 / Add Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 8",
+      "parent": {
+        "$ref": "Products / Grid"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 12,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270,
+        "fill": "none"
+      },
+      "select": false,
+      "width": 270
+    },
+    "as": "Card / 8"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 8"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 8 / Image",
+      "parent": {
+        "$ref": "Card / 8"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 0,
+        "padding": 0,
+        "mainAlign": "center",
+        "crossAlign": "center",
+        "sizingH": "fill",
+        "sizingV": "fixed",
+        "fill": "#d5dee7",
+        "stroke": "#c4ced8",
+        "strokeWeight": 1,
+        "height": 202
+      },
+      "select": false,
+      "height": 202
+    },
+    "as": "Card / 8 / Image"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 8 / Image"
+      },
+      "height": 202,
+      "sizingV": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 8 / Image Label",
+      "text": "Нет фото",
+      "parent": {
+        "$ref": "Card / 8 / Image"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 8 / Image Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 8 / Image Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 8 / Name",
+      "text": "Силикагель КСКГ",
+      "parent": {
+        "$ref": "Card / 8"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 15,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270,
+        "lineHeight": "130%"
+      },
+      "select": false
+    },
+    "as": "Card / 8 / Name"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 8 / Name"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 8 / Formula",
+      "text": "SiO2·nH2O",
+      "parent": {
+        "$ref": "Card / 8"
+      },
+      "props": {
+        "fontFamily": "JetBrainsMono Nerd Font",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 8 / Formula"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 8 / Formula"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 8 / Pack",
+      "text": "Фасовка: мешки 25 кг",
+      "parent": {
+        "$ref": "Card / 8"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 270
+      },
+      "select": false
+    },
+    "as": "Card / 8 / Pack"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 8 / Pack"
+      },
+      "width": 270,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 8 / Avail",
+      "text": "Под заказ",
+      "parent": {
+        "$ref": "Card / 8"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 8 / Avail"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 8 / Avail"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Card / 8 / Add",
+      "parent": {
+        "$ref": "Card / 8"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": [
+          10,
+          12,
+          10,
+          12
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "stroke": "#0e3d72",
+        "strokeWeight": 1,
+        "cornerRadius": 2,
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Card / 8 / Add"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 8 / Add"
+      },
+      "fill": "none"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Card / 8 / Add Label",
+      "text": "В запрос",
+      "parent": {
+        "$ref": "Card / 8 / Add"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 13,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Card / 8 / Add Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Card / 8 / Add Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "How",
+      "parent": {
+        "$ref": "Home / Desktop"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 32,
+        "padding": [
+          64,
+          144,
+          64,
+          144
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "#eef2f5"
+      },
+      "select": false
+    },
+    "as": "How"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "How / Title",
+      "text": "Как работаем",
+      "parent": {
+        "$ref": "How"
+      },
+      "props": {
+        "fontFamily": "Montserrat",
+        "fontStyle": "SemiBold",
+        "fontSize": 28,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "letterSpacing": "-2%"
+      },
+      "select": false
+    },
+    "as": "How / Title"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "How / Title"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "How / Grid",
+      "parent": {
+        "$ref": "How"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 40,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "How / Grid"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "How / От производителя",
+      "parent": {
+        "$ref": "How / Grid"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 12,
+        "padding": [
+          20,
+          0,
+          0,
+          0
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 357
+      },
+      "select": false,
+      "width": 357
+    },
+    "as": "How / От производителя"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "How / От производителя"
+      },
+      "width": 357,
+      "sizingH": "fixed",
+      "stroke": "#c4ced8",
+      "strokeWeight": 1,
+      "strokeSides": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "paddingTop": 20
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "How / От производителя / Title",
+      "text": "От производителя",
+      "parent": {
+        "$ref": "How / От производителя"
+      },
+      "props": {
+        "fontFamily": "Montserrat",
+        "fontStyle": "SemiBold",
+        "fontSize": 18,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 357
+      },
+      "select": false
+    },
+    "as": "How / От производителя / Title"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "How / От производителя / Title"
+      },
+      "width": 357,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "How / От производителя / Body",
+      "text": "Прямые контракты и стабильные поставки сырья.",
+      "parent": {
+        "$ref": "How / От производителя"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 15,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 357,
+        "lineHeight": "150%"
+      },
+      "select": false
+    },
+    "as": "How / От производителя / Body"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "How / От производителя / Body"
+      },
+      "width": 357,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "How / Подбор объёма",
+      "parent": {
+        "$ref": "How / Grid"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 12,
+        "padding": [
+          20,
+          0,
+          0,
+          0
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 357
+      },
+      "select": false,
+      "width": 357
+    },
+    "as": "How / Подбор объёма"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "How / Подбор объёма"
+      },
+      "width": 357,
+      "sizingH": "fixed",
+      "stroke": "#c4ced8",
+      "strokeWeight": 1,
+      "strokeSides": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "paddingTop": 20
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "How / Подбор объёма / Title",
+      "text": "Подбор объёма",
+      "parent": {
+        "$ref": "How / Подбор объёма"
+      },
+      "props": {
+        "fontFamily": "Montserrat",
+        "fontStyle": "SemiBold",
+        "fontSize": 18,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 357
+      },
+      "select": false
+    },
+    "as": "How / Подбор объёма / Title"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "How / Подбор объёма / Title"
+      },
+      "width": 357,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "How / Подбор объёма / Body",
+      "text": "Фасовку и объём обсуждаем в заявке под ваш процесс.",
+      "parent": {
+        "$ref": "How / Подбор объёма"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 15,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 357,
+        "lineHeight": "150%"
+      },
+      "select": false
+    },
+    "as": "How / Подбор объёма / Body"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "How / Подбор объёма / Body"
+      },
+      "width": 357,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "How / Документы",
+      "parent": {
+        "$ref": "How / Grid"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 12,
+        "padding": [
+          20,
+          0,
+          0,
+          0
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 357
+      },
+      "select": false,
+      "width": 357
+    },
+    "as": "How / Документы"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "How / Документы"
+      },
+      "width": 357,
+      "sizingH": "fixed",
+      "stroke": "#c4ced8",
+      "strokeWeight": 1,
+      "strokeSides": [
+        true,
+        false,
+        false,
+        false
+      ],
+      "paddingTop": 20
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "How / Документы / Title",
+      "text": "Документы",
+      "parent": {
+        "$ref": "How / Документы"
+      },
+      "props": {
+        "fontFamily": "Montserrat",
+        "fontStyle": "SemiBold",
+        "fontSize": 18,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 357
+      },
+      "select": false
+    },
+    "as": "How / Документы / Title"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "How / Документы / Title"
+      },
+      "width": 357,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "How / Документы / Body",
+      "text": "Паспорта качества и SDS скачиваются из карточки товара.",
+      "parent": {
+        "$ref": "How / Документы"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 15,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 357,
+        "lineHeight": "150%"
+      },
+      "select": false
+    },
+    "as": "How / Документы / Body"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "How / Документы / Body"
+      },
+      "width": 357,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Quick CTA",
+      "parent": {
+        "$ref": "Home / Desktop"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 24,
+        "padding": [
+          56,
+          144,
+          56,
+          144
+        ],
+        "mainAlign": "spaceBetween",
+        "crossAlign": "max",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "#0e3d72"
+      },
+      "select": false
+    },
+    "as": "Quick CTA"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Quick CTA / Text",
+      "parent": {
+        "$ref": "Quick CTA"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 12,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 640,
+        "fill": "none"
+      },
+      "select": false,
+      "width": 640
+    },
+    "as": "Quick CTA / Text"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Quick CTA / Text"
+      },
+      "width": 640,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Quick CTA / Title",
+      "text": "Быстрая заявка",
+      "parent": {
+        "$ref": "Quick CTA / Text"
+      },
+      "props": {
+        "fontFamily": "Montserrat",
+        "fontStyle": "SemiBold",
+        "fontSize": 28,
+        "fill": "#ffffff",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "letterSpacing": "-2%"
+      },
+      "select": false
+    },
+    "as": "Quick CTA / Title"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Quick CTA / Title"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Quick CTA / Lead",
+      "text": "Напишите, что ищете и в каких объёмах — менеджер ответит.",
+      "parent": {
+        "$ref": "Quick CTA / Text"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 16,
+        "fill": "#ffffffcc",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 560,
+        "lineHeight": "150%"
+      },
+      "select": false
+    },
+    "as": "Quick CTA / Lead"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Quick CTA / Lead"
+      },
+      "width": 560,
+      "sizingH": "fixed"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Quick CTA / Btn",
+      "parent": {
+        "$ref": "Quick CTA"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 0,
+        "padding": [
+          14,
+          20,
+          14,
+          20
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "hug",
+        "sizingV": "hug",
+        "fill": "#ffffff",
+        "cornerRadius": 2
+      },
+      "select": false
+    },
+    "as": "Quick CTA / Btn"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Quick CTA / Btn Label",
+      "text": "Оставить заявку",
+      "parent": {
+        "$ref": "Quick CTA / Btn"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "SemiBold",
+        "fontSize": 15,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Quick CTA / Btn Label"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Quick CTA / Btn Label"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Footer",
+      "parent": {
+        "$ref": "Home / Desktop"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 0,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "#e2e8ee"
+      },
+      "select": false
+    },
+    "as": "Footer"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Footer"
+      },
+      "stroke": "#c4ced8",
+      "strokeWeight": 1,
+      "strokeSides": [
+        true,
+        false,
+        false,
+        false
+      ]
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Footer / Inner",
+      "parent": {
+        "$ref": "Footer"
+      },
+      "props": {
+        "layout": "horizontal",
+        "gap": 48,
+        "padding": [
+          48,
+          144,
+          48,
+          144
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Footer / Inner"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Footer / Brand",
+      "parent": {
+        "$ref": "Footer / Inner"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 12,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Footer / Brand"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Footer / Name",
+      "text": "Хан-Хим",
+      "parent": {
+        "$ref": "Footer / Brand"
+      },
+      "props": {
+        "fontFamily": "Montserrat",
+        "fontStyle": "SemiBold",
+        "fontSize": 20,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Footer / Name"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Footer / Name"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Footer / Phone",
+      "text": "+7 (900) 000-00-00",
+      "parent": {
+        "$ref": "Footer / Brand"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 14,
+        "fill": "#101820",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Footer / Phone"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Footer / Phone"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Footer / Email",
+      "text": "info@example.com",
+      "parent": {
+        "$ref": "Footer / Brand"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 14,
+        "fill": "#0e3d72",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Footer / Email"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Footer / Email"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Footer / Address",
+      "text": "Россия (демо-данные)",
+      "parent": {
+        "$ref": "Footer / Brand"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 14,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Footer / Address"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Footer / Address"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Footer / Reqs",
+      "parent": {
+        "$ref": "Footer / Inner"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 4,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Footer / Reqs"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Footer / ИНН 0000000000",
+      "text": "ИНН 0000000000",
+      "parent": {
+        "$ref": "Footer / Reqs"
+      },
+      "props": {
+        "fontFamily": "JetBrainsMono Nerd Font",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Footer / ИНН 0000000000"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Footer / ИНН 0000000000"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Footer / ОГРН 0000000000000",
+      "text": "ОГРН 0000000000000",
+      "parent": {
+        "$ref": "Footer / Reqs"
+      },
+      "props": {
+        "fontFamily": "JetBrainsMono Nerd Font",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Footer / ОГРН 0000000000000"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Footer / ОГРН 0000000000000"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Footer / КПП 000000000",
+      "text": "КПП 000000000",
+      "parent": {
+        "$ref": "Footer / Reqs"
+      },
+      "props": {
+        "fontFamily": "JetBrainsMono Nerd Font",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Footer / КПП 000000000"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Footer / КПП 000000000"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Footer / Юридический адрес (демо)",
+      "text": "Юридический адрес (демо)",
+      "parent": {
+        "$ref": "Footer / Reqs"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Footer / Юридический адрес (демо)"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Footer / Юридический адрес (демо)"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Footer / Links",
+      "parent": {
+        "$ref": "Footer / Inner"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 8,
+        "padding": 0,
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "none"
+      },
+      "select": false
+    },
+    "as": "Footer / Links"
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Footer / Link Каталог",
+      "text": "Каталог",
+      "parent": {
+        "$ref": "Footer / Links"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 14,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Footer / Link Каталог"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Footer / Link Каталог"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Footer / Link Политика конфиденциальности",
+      "text": "Политика конфиденциальности",
+      "parent": {
+        "$ref": "Footer / Links"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 14,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Footer / Link Политика конфиденциальности"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Footer / Link Политика конфиденциальности"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Footer / Link Согласие на обработку ПДн",
+      "text": "Согласие на обработку ПДн",
+      "parent": {
+        "$ref": "Footer / Links"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 14,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "widthAndHeight",
+        "sizingH": "hug",
+        "sizingV": "hug"
+      },
+      "select": false
+    },
+    "as": "Footer / Link Согласие на обработку ПДн"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Footer / Link Согласие на обработку ПДн"
+      },
+      "sizingH": "hug"
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "frame",
+      "name": "Footer / Disclaimer",
+      "parent": {
+        "$ref": "Footer"
+      },
+      "props": {
+        "layout": "vertical",
+        "gap": 0,
+        "padding": [
+          16,
+          144,
+          16,
+          144
+        ],
+        "mainAlign": "min",
+        "crossAlign": "min",
+        "sizingH": "fill",
+        "sizingV": "hug",
+        "fill": "#e2e8ee"
+      },
+      "select": false
+    },
+    "as": "Footer / Disclaimer"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Footer / Disclaimer"
+      },
+      "stroke": "#c4ced8",
+      "strokeWeight": 1,
+      "strokeSides": [
+        true,
+        false,
+        false,
+        false
+      ]
+    }
+  },
+  {
+    "command": "node.create",
+    "params": {
+      "type": "text",
+      "name": "Footer / Disclaimer Text",
+      "text": "Информация на сайте не является публичной офертой. Актуальные цены и наличие уточняйте у менеджера.",
+      "parent": {
+        "$ref": "Footer / Disclaimer"
+      },
+      "props": {
+        "fontFamily": "Inter",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "fill": "#3a4654",
+        "textAlign": "left",
+        "textAutoResize": "height",
+        "sizingH": "fixed",
+        "sizingV": "hug",
+        "width": 1152,
+        "lineHeight": "140%"
+      },
+      "select": false
+    },
+    "as": "Footer / Disclaimer Text"
+  },
+  {
+    "command": "node.set",
+    "params": {
+      "id": {
+        "$ref": "Footer / Disclaimer Text"
+      },
+      "width": 1152,
+      "sizingH": "fixed"
+    }
+  }
+]

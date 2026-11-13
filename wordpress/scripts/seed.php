@@ -19,6 +19,29 @@ $admin_email = getenv('ADMIN_EMAIL') ?: 'admin@example.com';
 $admin_password = getenv('ADMIN_PASSWORD') ?: 'admin-change-me';
 $fallback_email = getenv('REQUESTS_FALLBACK_EMAIL') ?: 'demo@example.com';
 
+/**
+ * Каталог seed/: Docker (/seed), рядом со скриптом, или KHAN_HIM_SEED_DIR.
+ */
+function khan_him_seed_root(): string
+{
+    $from_env = getenv('KHAN_HIM_SEED_DIR');
+    if (is_string($from_env) && $from_env !== '' && is_dir($from_env)) {
+        return rtrim($from_env, '/');
+    }
+    if (is_dir('/seed')) {
+        return '/seed';
+    }
+    $adjacent = __DIR__ . '/seed';
+    if (is_dir($adjacent)) {
+        return $adjacent;
+    }
+    $repo = dirname(__DIR__) . '/seed';
+    if (is_dir($repo)) {
+        return $repo;
+    }
+    WP_CLI::error('Каталог seed не найден. Задайте KHAN_HIM_SEED_DIR или положите seed/ рядом со скриптом.');
+}
+
 $categories = [
     ['name' => 'Кислоты', 'order' => 1],
     ['name' => 'Щёлочи и соли', 'order' => 2],
@@ -28,7 +51,8 @@ $categories = [
     ['name' => 'Сорбенты и катализаторы', 'order' => 6],
 ];
 
-$products = require __DIR__ . '/../seed/products.php';
+$seed_root = khan_him_seed_root();
+$products = require $seed_root . '/products.php';
 
 if ($reset) {
     $old_products = get_posts([
@@ -167,7 +191,7 @@ function khan_him_seed_sideload(string $path, string $title): int
     return (int) $id;
 }
 
-$doc_path = '/seed/assets/pasport-obrazec.pdf';
+$doc_path = $seed_root . '/assets/pasport-obrazec.pdf';
 $doc_id = 0;
 
 $created = 0;
@@ -228,7 +252,7 @@ foreach ($products as $product) {
 
     $with_image = $product['withImage'] ?? true;
     if ($with_image) {
-        $img = "/seed/assets/{$product['sku']}.png";
+        $img = $seed_root . '/assets/' . $product['sku'] . '.png';
         $img_id = khan_him_seed_sideload($img, $product['name']);
         if ($img_id > 0) {
             update_post_meta($post_id, 'khan_him_gallery', [$img_id]);
